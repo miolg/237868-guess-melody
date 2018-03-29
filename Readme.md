@@ -1,7 +1,7 @@
 # Личный проект «Угадай мелодию» [![Build status][travis-image]][travis-url]
 
 * Студент: [Ольга Васильева](https://up.htmlacademy.ru/ecmascript/4/user/237868).
-* Наставник: `Неизвестно`.
+* Наставник: [Николай Эмрих](https://htmlacademy.ru/profile/id129463).
 
 ---
 
