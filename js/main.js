@@ -1,24 +1,27 @@
+const ARROW_LEFT = 37;
+const ARROW_RIGHT = 39;
 const templates = document.querySelector(`#templates`);
-const viewsArray = Array.from(templates.content.querySelectorAll(`section.main`));
-const main = document.querySelector(`.app > .main`);
-const maxViewIndex = 5;
+const viewsArray = Array.from(templates.content.querySelectorAll(`.main`));
+const maxViewIndex = viewsArray.length - 1;
+const app = document.querySelector(`.app`);
 let currentViewIndex = 0;
 
 
 const showView = (index) => {
+  const main = document.querySelector(`.app > .main`);
   const currentView = viewsArray[index];
-  if (main.hasChildNodes()) {
-    main.removeChild(main.childNodes[0]);
-  }
-  main.appendChild(currentView);
+  app.replaceChild(currentView, main);
 };
 
 showView(currentViewIndex);
-document.onkeydown = (e) => {
-  if (e.altKey && e.keyCode === 37 && currentViewIndex > 0) {
-    showView(--currentViewIndex);
+document.onkeydown = (evt) => {
+  if (!evt.altKey) {
+    return;
   }
-  if (e.altKey && e.keyCode === 39 && currentViewIndex < maxViewIndex) {
+
+  if (evt.keyCode === ARROW_LEFT && currentViewIndex > 0) {
+    showView(--currentViewIndex);
+  } else if (evt.keyCode === ARROW_RIGHT && currentViewIndex < maxViewIndex) {
     showView(++currentViewIndex);
   }
 };
