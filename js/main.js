@@ -1,15 +1,17 @@
-const ARROW_LEFT = 37;
-const ARROW_RIGHT = 39;
+const KeyCode = {
+  ARROW_LEFT: 37,
+  ARROW_RIGHT: 39
+};
 const templates = document.querySelector(`#templates`);
-const viewsArray = Array.from(templates.content.querySelectorAll(`.main`));
-const maxViewIndex = viewsArray.length - 1;
+const viewTemplates = Array.from(templates.content.querySelectorAll(`.main`));
+const maxViewIndex = viewTemplates.length - 1;
 const app = document.querySelector(`.app`);
 let currentViewIndex = 0;
 
 
 const showView = (index) => {
   const main = document.querySelector(`.app > .main`);
-  const currentView = viewsArray[index];
+  const currentView = viewTemplates[index];
   app.replaceChild(currentView, main);
 };
 
@@ -19,9 +21,9 @@ document.onkeydown = (evt) => {
     return;
   }
 
-  if (evt.keyCode === ARROW_LEFT && currentViewIndex > 0) {
+  if (evt.keyCode === KeyCode.ARROW_LEFT && currentViewIndex > 0) {
     showView(--currentViewIndex);
-  } else if (evt.keyCode === ARROW_RIGHT && currentViewIndex < maxViewIndex) {
+  } else if (evt.keyCode === KeyCode.ARROW_RIGHT && currentViewIndex < maxViewIndex) {
     showView(++currentViewIndex);
   }
 };
