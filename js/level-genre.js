@@ -3,6 +3,7 @@ import result from './result.js';
 import expiredTimeResult from './expired-time-result.js';
 import expiredTriesResult from './expired-tries-result.js';
 
+// Игра на выбор жанра
 const genreLevel = getElementFromTemplate(`
   <section class="main main--level main--level-genre">
     <svg xmlns="http://www.w3.org/2000/svg" class="timer" viewBox="0 0 780 780">

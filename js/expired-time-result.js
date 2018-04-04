@@ -1,6 +1,7 @@
 import {getElementFromTemplate, showView} from './utils.js';
 import welcome from './welcome';
 
+// Результат игры: проигрыш время вышло
 const expiredTime = getElementFromTemplate(`
   <section class="main main--result">
     <section class="logo" title="Угадай мелодию"><h1>Угадай мелодию</h1></section>

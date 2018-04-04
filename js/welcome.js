@@ -1,6 +1,7 @@
 import {getElementFromTemplate, showView} from './utils.js';
 import artistLevel from './level-artist';
 
+// Приветствие
 const welcome = getElementFromTemplate(`
   <section class="main main--welcome">
     <section class="logo" title="Угадай мелодию"><h1>Угадай мелодию</h1></section>

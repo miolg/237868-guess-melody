@@ -1,6 +1,7 @@
 import {getElementFromTemplate, showView} from './utils.js';
 import genreLevel from './level-genre';
 
+// Игра на выбор исполнителя
 const artistLevel = getElementFromTemplate(`
   <section class="main main--level main--level-artist">
     <svg xmlns="http://www.w3.org/2000/svg" class="timer" viewBox="0 0 780 780">
