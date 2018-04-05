@@ -69,7 +69,7 @@ answersContainer.addEventListener(`change`, (event) => {
   if (target.className === `main-answer-r`) {
     Array.from(answersContainer.answer).forEach((item) => {
       item.checked = false;
-    })
+    });
     showView(genreLevel);
   }
 });
