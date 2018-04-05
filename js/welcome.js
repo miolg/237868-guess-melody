@@ -2,7 +2,7 @@ import {getElementFromTemplate, showView} from './utils.js';
 import artistLevel from './level-artist';
 
 // Приветствие
-const welcome = getElementFromTemplate(`
+const viewElement = getElementFromTemplate(`
   <section class="main main--welcome">
     <section class="logo" title="Угадай мелодию"><h1>Угадай мелодию</h1></section>
     <button class="main-play">Начать игру</button>
@@ -14,10 +14,10 @@ const welcome = getElementFromTemplate(`
     </p>
   </section>`);
 
-const button = welcome.querySelector(`.main-play`);
+const button = viewElement.querySelector(`.main-play`);
 
 button.addEventListener(`click`, () => {
   showView(artistLevel);
 });
 
-export default welcome;
+export default viewElement;

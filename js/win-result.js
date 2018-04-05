@@ -2,7 +2,7 @@ import {getElementFromTemplate, showView} from './utils.js';
 import welcome from './welcome';
 
 // Результат игры: выигрыш
-const result = getElementFromTemplate(`
+const viewElement = getElementFromTemplate(`
   <section class="main main--result">
     <section class="logo" title="Угадай мелодию"><h1>Угадай мелодию</h1></section>
 
@@ -14,10 +14,10 @@ const result = getElementFromTemplate(`
     <span role="button" tabindex="0" class="main-replay">Сыграть ещё раз</span>
   </section>`);
 
-const button = result.querySelector(`.main-replay`);
+const button = viewElement.querySelector(`.main-replay`);
 
 button.addEventListener(`click`, () => {
   showView(welcome);
 });
 
-export default result;
+export default viewElement;

@@ -1,10 +1,10 @@
 import {getElementFromTemplate, showView} from './utils.js';
-import result from './result.js';
+import winResult from './win-result.js';
 import expiredTimeResult from './expired-time-result.js';
 import expiredTriesResult from './expired-tries-result.js';
 
 // Игра на выбор жанра
-const genreLevel = getElementFromTemplate(`
+const viewElement = getElementFromTemplate(`
   <section class="main main--level main--level-genre">
     <svg xmlns="http://www.w3.org/2000/svg" class="timer" viewBox="0 0 780 780">
       <circle
@@ -88,31 +88,28 @@ const genreLevel = getElementFromTemplate(`
     </div>
   </section>
 `);
+const formContainter = viewElement.querySelector(`.genre`);
+const answers = Array.from(formContainter.answer);
+const button = viewElement.querySelector(`.genre-answer-send`);
+const nextScreens = [winResult, expiredTimeResult, expiredTriesResult];
 
-const answers = Array.from(genreLevel.querySelectorAll(`.genre-answer input`));
-const button = genreLevel.querySelector(`.genre-answer-send`);
-const nextScreens = [result, expiredTimeResult, expiredTriesResult];
+button.disabled = true;
 
-button.setAttribute(`disabled`, `disabled`);
-
-answers.forEach((answer) => {
-  answer.addEventListener(`click`, () => {
-    if (answers.some((item) => item.checked)) {
-      button.removeAttribute(`disabled`);
-    } else {
-      button.setAttribute(`disabled`, `disabled`);
-    }
-  });
+formContainter.addEventListener(`change`, (event) => {
+  let target = event.target;
+  if (target.tagName === `INPUT`) {
+    button.disabled = !answers.some((item) => item.checked);
+  }
 });
+
 
 button.addEventListener(`click`, () => {
   const screenIndex = Math.floor(Math.random() * nextScreens.length);
   answers.forEach((item) => {
     item.checked = false;
-    return item;
   });
-  button.setAttribute(`disabled`, `disabled`);
+  button.disabled = true;
   showView(nextScreens[screenIndex]);
 });
 
-export default genreLevel;
+export default viewElement;

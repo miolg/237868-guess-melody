@@ -2,7 +2,7 @@ import {getElementFromTemplate, showView} from './utils.js';
 import welcome from './welcome';
 
 // Результат игры: проигрыш время вышло
-const expiredTime = getElementFromTemplate(`
+const viewElement = getElementFromTemplate(`
   <section class="main main--result">
     <section class="logo" title="Угадай мелодию"><h1>Угадай мелодию</h1></section>
 
@@ -11,10 +11,10 @@ const expiredTime = getElementFromTemplate(`
     <span role="button" tabindex="0" class="main-replay">Попробовать ещё раз</span>
   </section>`);
 
-const button = expiredTime.querySelector(`.main-replay`);
+const button = viewElement.querySelector(`.main-replay`);
 
 button.addEventListener(`click`, () => {
   showView(welcome);
 });
 
-export default expiredTime;
+export default viewElement;

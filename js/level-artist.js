@@ -2,7 +2,7 @@ import {getElementFromTemplate, showView} from './utils.js';
 import genreLevel from './level-genre';
 
 // Игра на выбор исполнителя
-const artistLevel = getElementFromTemplate(`
+const viewElement = getElementFromTemplate(`
   <section class="main main--level main--level-artist">
     <svg xmlns="http://www.w3.org/2000/svg" class="timer" viewBox="0 0 780 780">
       <circle
@@ -63,12 +63,15 @@ const artistLevel = getElementFromTemplate(`
     </div>
   </section>`);
 
-const answers = Array.from(artistLevel.querySelectorAll(`.main-answer`));
-
-answers.forEach((answer) => {
-  answer.addEventListener(`click`, () => {
+const answersContainer = viewElement.querySelector(`.main-list`);
+answersContainer.addEventListener(`change`, (event) => {
+  let target = event.target;
+  if (target.className === `main-answer-r`) {
+    Array.from(answersContainer.answer).forEach((item) => {
+      item.checked = false;
+    })
     showView(genreLevel);
-  });
+  }
 });
 
-export default artistLevel;
+export default viewElement;
