@@ -1,12 +1,12 @@
-const app = document.querySelector(`.app`);
+const appElement = document.querySelector(`.app`);
 
 export const getElementFromTemplate = (template) => {
-  const outer = document.createElement(`div`);
-  outer.innerHTML = template;
-  return outer.children[0];
+  const outerElement = document.createElement(`div`);
+  outerElement.innerHTML = template;
+  return outerElement.children[0];
 };
 
 export const showView = (element) => {
-  const main = document.querySelector(`.app > .main`);
-  app.replaceChild(element, main);
+  const mainElement = document.querySelector(`.app > .main`);
+  appElement.replaceChild(element, mainElement);
 };
