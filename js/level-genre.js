@@ -95,7 +95,7 @@ const nextScreens = [winResult, expiredTimeResult, expiredTriesResult];
 
 button.disabled = true;
 
-formElement.addEventListener(`change`, (event) => {
+formElement.addEventListener(`change`, () => {
   button.disabled = !answers.some((item) => item.checked);
 });
 
