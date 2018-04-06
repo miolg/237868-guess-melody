@@ -65,10 +65,8 @@ const viewElement = getElementFromTemplate(`
 
 const formElement = viewElement.querySelector(`.main-list`);
 formElement.addEventListener(`change`, (event) => {
-  if (event.target.className === `main-answer-r`) {
-    event.target.checked = false;
-    showView(genreLevel);
-  }
+  event.target.checked = false;
+  showView(genreLevel);
 });
 
 export default viewElement;
