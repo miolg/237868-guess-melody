@@ -88,18 +88,15 @@ const viewElement = getElementFromTemplate(`
     </div>
   </section>
 `);
-const formContainter = viewElement.querySelector(`.genre`);
-const answers = Array.from(formContainter.answer);
+const formElement = viewElement.querySelector(`.genre`);
+const answers = Array.from(formElement.answer);
 const button = viewElement.querySelector(`.genre-answer-send`);
 const nextScreens = [winResult, expiredTimeResult, expiredTriesResult];
 
 button.disabled = true;
 
-formContainter.addEventListener(`change`, (event) => {
-  let target = event.target;
-  if (target.tagName === `INPUT`) {
-    button.disabled = !answers.some((item) => item.checked);
-  }
+formElement.addEventListener(`change`, (event) => {
+  button.disabled = !answers.some((item) => item.checked);
 });
 
 

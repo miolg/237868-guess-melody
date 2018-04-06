@@ -63,13 +63,10 @@ const viewElement = getElementFromTemplate(`
     </div>
   </section>`);
 
-const answersContainer = viewElement.querySelector(`.main-list`);
-answersContainer.addEventListener(`change`, (event) => {
-  let target = event.target;
-  if (target.className === `main-answer-r`) {
-    Array.from(answersContainer.answer).forEach((item) => {
-      item.checked = false;
-    });
+const formElement = viewElement.querySelector(`.main-list`);
+formElement.addEventListener(`change`, (event) => {
+  if (event.target.className === `main-answer-r`) {
+    event.target.checked = false;
     showView(genreLevel);
   }
 });
