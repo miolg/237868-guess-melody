@@ -79,7 +79,3 @@ describe(`Printing user results`, () => {
     assert.equal(printUserResults(results, {points: 95, remainingTime: 10, remainingTries: 3}), `Вы заняли 1 место из 6 игроков. Это лучше, чем у 83% игроков`);
   });
 });
-
-describe(`Timer`, () => {
-
-})

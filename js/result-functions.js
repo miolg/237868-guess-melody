@@ -44,9 +44,3 @@ export const printUserResults = (usersResults, currentUserResult) => {
 
   return result;
 };
-
-export const startTimer = (duration) => {
-  let timer = {};
-
-  return timer;
-};
