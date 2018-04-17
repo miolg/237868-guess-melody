@@ -1,17 +1,20 @@
 export const setTimer = (duration) => {
-  let timer = {};
-
-  if (duration > 0) {
-    timer = {
-      time: duration,
-      tick() {
-        if (this.time > 1) {
-          this.time -= 1;
-        } else {
-          this.time = `Время вышло`;
-        }
-      }
-    };
+  if (!Number.isInteger(duration)) {
+    throw new TypeError(`Passed argument is not a number`);
   }
-  return timer;
+  if (duration < 0) {
+    throw new Error(`Passed number must not be a negative`);
+  }
+
+  return {
+    time: duration,
+    isExpired: false,
+    tick() {
+      if (this.time > 0) {
+        this.time -= 1;
+      } else {
+        this.isExpired = true;
+      }
+    }
+  };
 };

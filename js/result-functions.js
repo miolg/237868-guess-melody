@@ -1,3 +1,10 @@
+const pointRules = {
+  TIME_LIMIT: 20,
+  FAIL: 2,
+  SUCCESS: 1,
+  FAST_SUCCESS: 2
+};
+
 export const calcUserPoints = (userAnswers, remainingTriesCount) => {
   let userPoints = 0;
 
@@ -6,9 +13,9 @@ export const calcUserPoints = (userAnswers, remainingTriesCount) => {
   } else {
     for (const answer of userAnswers) {
       if (answer.passed) {
-        userPoints += answer.time < 30 ? 2 : 1;
+        userPoints += answer.time < pointRules.TIME_LIMIT ? pointRules.FAST_SUCCESS : pointRules.SUCCESS;
       } else {
-        userPoints -= 2;
+        userPoints -= pointRules.FAIL;
       }
     }
   }
@@ -24,8 +31,8 @@ const _pushUserResultsToList = (usersResults, currentUserResult) => {
 };
 
 const _calcUsersPercentage = (usersResults, currentUserResult) => {
-  let userPlace = usersResults.indexOf(currentUserResult) + 1;
-  let betterThanPercentage = (usersResults.length - userPlace) === 0 ? 0 : Math.round((usersResults.length - userPlace) / usersResults.length * 100);
+  const userPlace = usersResults.indexOf(currentUserResult) + 1;
+  const betterThanPercentage = (usersResults.length - userPlace) === 0 ? 0 : Math.round((usersResults.length - userPlace) / usersResults.length * 100);
   return {userPlace, betterThanPercentage};
 };
 
@@ -38,7 +45,7 @@ export const printUserResults = (usersResults, currentUserResult) => {
   } else if (currentUserResult.remainingTries === 0) {
     result = `У вас закончились все попытки. Ничего, повезёт в следующий раз!`;
   } else {
-    let {betterThanPercentage, userPlace} = _calcUsersPercentage(newUsersResults, currentUserResult);
+    const {betterThanPercentage, userPlace} = _calcUsersPercentage(newUsersResults, currentUserResult);
     result = `Вы заняли ${userPlace} место из ${newUsersResults.length} игроков. Это лучше, чем у ${betterThanPercentage}% игроков`;
   }
 
