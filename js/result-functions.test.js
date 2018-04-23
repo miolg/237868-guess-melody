@@ -72,10 +72,25 @@ describe(`Printing user results`, () => {
   it(`should return results when user successfully completed the game`, () => {
     let results = [];
     assert.equal(printUserResults(results, {points: 80, remainingTime: 10, remainingTries: 3}), `Вы заняли 1 место из 1 игроков. Это лучше, чем у 0% игроков`);
+    results = [{points: 80, remainingTime: 10, remainingTries: 3}];
     assert.equal(printUserResults(results, {points: 90, remainingTime: 10, remainingTries: 3}), `Вы заняли 1 место из 2 игроков. Это лучше, чем у 50% игроков`);
+    results = [{points: 80, remainingTime: 10, remainingTries: 3},
+      {points: 90, remainingTime: 10, remainingTries: 3}];
     assert.equal(printUserResults(results, {points: 50, remainingTime: 10, remainingTries: 3}), `Вы заняли 3 место из 3 игроков. Это лучше, чем у 0% игроков`);
+    results = [{points: 80, remainingTime: 10, remainingTries: 3},
+      {points: 90, remainingTime: 10, remainingTries: 3},
+      {points: 50, remainingTime: 10, remainingTries: 3}];
     assert.equal(printUserResults(results, {points: 60, remainingTime: 10, remainingTries: 3}), `Вы заняли 3 место из 4 игроков. Это лучше, чем у 25% игроков`);
+    results = [{points: 80, remainingTime: 10, remainingTries: 3},
+      {points: 90, remainingTime: 10, remainingTries: 3},
+      {points: 50, remainingTime: 10, remainingTries: 3},
+      {points: 60, remainingTime: 10, remainingTries: 3}];
     assert.equal(printUserResults(results, {points: 85, remainingTime: 10, remainingTries: 3}), `Вы заняли 2 место из 5 игроков. Это лучше, чем у 60% игроков`);
+    results = [{points: 80, remainingTime: 10, remainingTries: 3},
+      {points: 90, remainingTime: 10, remainingTries: 3},
+      {points: 50, remainingTime: 10, remainingTries: 3},
+      {points: 60, remainingTime: 10, remainingTries: 3},
+      {points: 85, remainingTime: 10, remainingTries: 3}];
     assert.equal(printUserResults(results, {points: 95, remainingTime: 10, remainingTries: 3}), `Вы заняли 1 место из 6 игроков. Это лучше, чем у 83% игроков`);
   });
 });
