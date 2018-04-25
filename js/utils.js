@@ -1,3 +1,5 @@
+import {INITIAL_GAME, Question} from './data/game-data';
+
 export const getElementFromTemplate = (template) => {
   const outerElement = document.createElement(`div`);
   outerElement.innerHTML = template;
@@ -24,4 +26,21 @@ export const getDeclinedNoun = (nounForms, num) => { // [`секунда`, `се
   }
 
   return result;
+};
+
+export const getQuestion = (question) => {
+  return Question[question];
+};
+
+export const getRandomAnswers = (allAnswers, expectedNumberOfAnswers) => {
+  const shuffledAnswers = allAnswers.sort(() => 0.5 - Math.random());
+  return shuffledAnswers.slice(0, expectedNumberOfAnswers);
+};
+
+export const canContinue = (state) => state.lives - 1 > 0;
+
+export const win = (state) => canContinue(state) && state.questionsShown === INITIAL_GAME.maxQuestions;
+
+export const nextQuestion = (state) => {
+  return Object.assign({}, state, {questionsShown: state.questionsShown + 1});
 };

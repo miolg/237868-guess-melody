@@ -1,9 +1,4 @@
-const PointRule = {
-  TIME_LIMIT: 20,
-  FAIL: 2,
-  SUCCESS: 1,
-  FAST_SUCCESS: 2
-};
+import {PointsRule} from './data/game-data';
 
 export const calcUserPoints = (userAnswers, remainingTriesCount) => {
   let userPoints = 0;
@@ -13,9 +8,9 @@ export const calcUserPoints = (userAnswers, remainingTriesCount) => {
   } else {
     for (const answer of userAnswers) {
       if (answer.passed) {
-        userPoints += answer.time < PointRule.TIME_LIMIT ? PointRule.FAST_SUCCESS : PointRule.SUCCESS;
+        userPoints += answer.time < PointsRule.TIME_LIMIT ? PointsRule.FAST_SUCCESS : PointsRule.SUCCESS;
       } else {
-        userPoints -= PointRule.FAIL;
+        userPoints -= PointsRule.FAIL;
       }
     }
   }

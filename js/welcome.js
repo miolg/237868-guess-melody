@@ -1,5 +1,6 @@
-import {getElementFromTemplate, showView} from './utils.js';
+import {getElementFromTemplate, showView} from './utils';
 import artistLevel from './level-artist';
+import {INITIAL_GAME} from './data/game-data';
 
 // Приветствие
 const viewElement = getElementFromTemplate(`
@@ -17,7 +18,7 @@ const viewElement = getElementFromTemplate(`
 const button = viewElement.querySelector(`.main-play`);
 
 button.addEventListener(`click`, () => {
-  showView(artistLevel);
+  showView(artistLevel(INITIAL_GAME));
 });
 
 export default viewElement;

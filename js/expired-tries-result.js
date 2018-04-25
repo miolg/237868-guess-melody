@@ -1,4 +1,4 @@
-import {getElementFromTemplate, showView} from './utils.js';
+import {getElementFromTemplate, showView} from './utils';
 import welcome from './welcome';
 
 // Результат игры: проигрыш закончились попытки
