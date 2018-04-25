@@ -1,6 +1,8 @@
+import {getMinuteAndSeconds} from '../utils';
+import {GAME} from '../data/game-data';
+
 export default (state) => {
-  const minutes = Math.floor(state.time / 60);
-  const seconds = `${Math.floor(state.time % 60) < 10 ? `0` : ``}${Math.floor(state.time % 60)}`;
+  const {minutes, seconds} = getMinuteAndSeconds(state.time);
   return `
     <svg xmlns="http://www.w3.org/2000/svg" class="timer" viewBox="0 0 780 780">
       <circle
@@ -15,7 +17,7 @@ export default (state) => {
       </div>
     </svg>
     <div class="main-mistakes">
-      ${new Array(3 - state.lives)
+      ${new Array(GAME.MAX_LIVES - state.lives)
       .fill(`<img class="main-mistake" src="img/wrong-answer.png" width="35" height="49">`)
       .join(``)}
     </div>`;

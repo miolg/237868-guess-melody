@@ -1,25 +1,19 @@
-import {getElementFromTemplate, showView, getQuestion, getRandomAnswers} from './utils';
+import {getElementFromTemplate, getQuestion, showNextScreen} from './utils';
 import renderHeader from './game/header';
 import renderPlayer from './game/player';
-import gameAnswers from './data/game-answers';
-import winResult from './win-result.js';
-import expiredTimeResult from './expired-time-result';
-import expiredTriesResult from './expired-tries-result';
 
 // Игра на выбор жанра
 export default (data) => {
-  const question = getQuestion(data.question);
-  const randomAnswers = getRandomAnswers(gameAnswers, 4);
-  // const randomRightAnswers = getRandomAnswers(randomAnswers, Math.floor(Math.random() * randomAnswers.length));
+  const question = getQuestion(data);
   const levelTemplate = `
     <section class="main main--level main--level-genre">
       ${renderHeader(data)}
       <div class="main-wrap">
-        <h2 class="title">${question.text}</h2>
+        <h2 class="title">Выберите ${question.rightAnswer.genre} треки</h2>
         <form class="genre">
-          ${randomAnswers.map((answer, index) =>`<div class="genre-answer">
+          ${question.answers.map((answer, index) =>`<div class="genre-answer">
               ${renderPlayer(answer)}
-              <input type="checkbox" name="answer" value="answer-1" id="a-${index}">
+              <input type="checkbox" name="answer" value=${answer.genre}" id="a-${index}">
               <label class="genre-answer-check" for="a-${index}"></label>
             </div>`).join(``)}
           <button class="genre-answer-send" type="submit">Ответить</button>
@@ -29,22 +23,28 @@ export default (data) => {
 
   const viewElement = getElementFromTemplate(levelTemplate);
   const formElement = viewElement.querySelector(`.genre`);
-  const userAnswers = Array.from(formElement.answer);
+  const formAnswers = Array.from(formElement.answer);
   const button = viewElement.querySelector(`.genre-answer-send`);
-  const nextScreens = [winResult, expiredTimeResult, expiredTriesResult];
   button.disabled = true;
 
   formElement.addEventListener(`change`, () => {
-    button.disabled = !userAnswers.some((item) => item.checked);
+    button.disabled = !formAnswers.some((item) => item.checked);
   });
 
   button.addEventListener(`click`, () => {
-    const screenIndex = Math.floor(Math.random() * nextScreens.length);
-    userAnswers.forEach((item) => {
+    let isRightAnswer = true;
+    formAnswers.forEach((item) => {
+      if (item.value !== question.rightAnswer.genre) {
+        isRightAnswer = false;
+      }
       item.checked = false;
     });
     button.disabled = true;
-    showView(nextScreens[screenIndex]);
+    const userAnswers = data.userAnswers.slice();
+    userAnswers.push({passed: isRightAnswer, time: 15});
+    const lives = isRightAnswer ? data.lives : data.lives - 1;
+    const newState = Object.assign({}, data, {currentQuestion: data.currentQuestion + 1, userAnswers, lives});
+    showNextScreen(newState);
   });
 
   return viewElement;

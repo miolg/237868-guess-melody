@@ -1,23 +1,38 @@
-import {getElementFromTemplate, showView} from './utils.js';
+import {getElementFromTemplate, showView, getMinuteAndSeconds, getDeclinedNoun} from './utils';
+import {calcUserPoints, calcFastPoints, printUserResults} from './result-functions';
+import {initialState, gameStatistics} from './data/game-data';
 import welcome from './welcome';
+import {GAME} from './data/game-data';
 
 // Результат игры: выигрыш
-const viewElement = getElementFromTemplate(`
-  <section class="main main--result">
-    <section class="logo" title="Угадай мелодию"><h1>Угадай мелодию</h1></section>
+export default (data) => {
+  const userResult = {
+    points: calcUserPoints(data.userAnswers, data.lives),
+    remainingTime: data.time,
+    remainingTries: data.lives
+  };
 
-    <h2 class="title">Вы настоящий меломан!</h2>
-    <div class="main-stat">За&nbsp;3&nbsp;минуты и 25&nbsp;секунд
-      <br>вы&nbsp;набрали 12 баллов (8 быстрых)
-      <br>совершив 3 ошибки</div>
-    <span class="main-comparison">Вы заняли 2 место из 10. Это&nbsp;лучше чем у&nbsp;80%&nbsp;игроков</span>
-    <span role="button" tabindex="0" class="main-replay">Сыграть ещё раз</span>
-  </section>`);
+  const fastPoints = calcFastPoints(data.userAnswers, data.lives);
+  const {minutes, seconds} = getMinuteAndSeconds(initialState.time - data.time);
+  const errorsNumber = GAME.MAX_LIVES - data.lives;
+  const viewElement = getElementFromTemplate(`
+    <section class="main main--result">
+      <section class="logo" title="Угадай мелодию"><h1>Угадай мелодию</h1></section>
 
-const button = viewElement.querySelector(`.main-replay`);
+      <h2 class="title">Вы настоящий меломан!</h2>
+      <div class="main-stat">За&nbsp;${minutes}&nbsp;${getDeclinedNoun([`минуту`, `минуты`, `минут`], minutes)} и ${seconds}&nbsp;${getDeclinedNoun([`секунду`, `секунды`, `секунд`], seconds)}
+        <br>вы&nbsp;набрали ${userResult.points} ${getDeclinedNoun([`балл`, `балла`, `баллов`], userResult.points)} (${fastPoints} быстрых)
+        <br>совершив ${errorsNumber} ${getDeclinedNoun([`ошибка`, `ошибки`, `ошибок`], errorsNumber)}</div>
+      <span class="main-comparison">${printUserResults(gameStatistics, userResult)}</span>
+      <span role="button" tabindex="0" class="main-replay">Сыграть ещё раз</span>
+    </section>`);
 
-button.addEventListener(`click`, () => {
-  showView(welcome);
-});
+  const button = viewElement.querySelector(`.main-replay`);
 
-export default viewElement;
+  button.addEventListener(`click`, () => {
+    gameStatistics.push(userResult);
+    showView(welcome);
+  });
+
+  return viewElement;
+};

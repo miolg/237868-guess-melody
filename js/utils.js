@@ -1,4 +1,8 @@
-import {INITIAL_GAME, Question} from './data/game-data';
+import {GAME} from './data/game-data';
+import genreLevel from './level-genre';
+import artistLevel from './level-artist';
+import winResult from './win-result.js';
+import failResult from './fail-result';
 
 export const getElementFromTemplate = (template) => {
   const outerElement = document.createElement(`div`);
@@ -28,19 +32,40 @@ export const getDeclinedNoun = (nounForms, num) => { // [`секунда`, `се
   return result;
 };
 
-export const getQuestion = (question) => {
-  return Question[question];
+export const getMinuteAndSeconds = (time) => {
+  const minutes = Math.floor(time / 60);
+  const seconds = `${Math.floor(time % 60) < 10 ? `0` : ``}${Math.floor(time % 60)}`;
+
+  return {minutes, seconds};
 };
 
-export const getRandomAnswers = (allAnswers, expectedNumberOfAnswers) => {
-  const shuffledAnswers = allAnswers.sort(() => 0.5 - Math.random());
-  return shuffledAnswers.slice(0, expectedNumberOfAnswers);
+export const getQuestion = (state) => state.questions[state.currentQuestion];
+
+export const getQuestionView = (state) => {
+  const question = getQuestion(state);
+  let questionView;
+  if (question.type === `artist`) {
+    questionView = artistLevel(state);
+  } else if (question.type === `genre`) {
+    questionView = genreLevel(state);
+  }
+  return questionView;
 };
 
-export const canContinue = (state) => state.lives - 1 > 0;
+const canContinue = (state) => state.lives > 0;
 
-export const win = (state) => canContinue(state) && state.questionsShown === INITIAL_GAME.maxQuestions;
+const win = (state) => canContinue(state) && state.currentQuestion === GAME.MAX_QUESTIONS;
 
-export const nextQuestion = (state) => {
-  return Object.assign({}, state, {questionsShown: state.questionsShown + 1});
+export const showNextScreen = (state) => {
+  let nextScreen;
+  if (!canContinue(state)) {
+    nextScreen = failResult(state);
+  } else if (win(state)) {
+    nextScreen = winResult(state);
+  }
+  if (nextScreen) {
+    showView(nextScreen);
+  } else {
+    showView(getQuestionView(state));
+  }
 };

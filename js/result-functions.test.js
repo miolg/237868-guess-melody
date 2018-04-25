@@ -1,4 +1,4 @@
-import {calcUserPoints, printUserResults} from './result-functions.js';
+import {calcUserPoints, printUserResults} from './result-functions';
 import {assert} from 'chai';
 
 const MAX_ERRORS_COUNT = 3;

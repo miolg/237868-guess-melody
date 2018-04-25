@@ -1,5 +1,21 @@
 import {PointsRule} from './data/game-data';
 
+export const calcFastPoints = (userAnswers, remainingTriesCount) => {
+  let fastPoints = 0;
+
+  if (userAnswers.length < 10 || remainingTriesCount === 0) {
+    userPoints = -1;
+  } else {
+    for (const answer of userAnswers) {
+      if (answer.passed && answer.time < PointsRule.TIME_LIMIT) {
+        fastPoints += PointsRule.FAST_SUCCESS;
+      }
+    }
+  }
+
+  return fastPoints;
+};
+
 export const calcUserPoints = (userAnswers, remainingTriesCount) => {
   let userPoints = 0;
 
@@ -18,7 +34,7 @@ export const calcUserPoints = (userAnswers, remainingTriesCount) => {
   return userPoints;
 };
 
-const getNewUsersResultsList = (usersResults, currentUserResult) => {
+export const getNewUsersResultsList = (usersResults, currentUserResult) => {
   const newUsersResults = usersResults.slice();
   newUsersResults.push(currentUserResult);
   return newUsersResults.sort((left, right) => {
@@ -37,12 +53,12 @@ export const printUserResults = (usersResults, currentUserResult) => {
   const newUsersResults = getNewUsersResultsList(usersResults, currentUserResult);
 
   if (currentUserResult.remainingTime === 0) {
-    result = `Время вышло! Вы не успели отгадать все мелодии`;
+    result = `Время вышло!<br>Вы не успели отгадать все мелодии`;
   } else if (currentUserResult.remainingTries === 0) {
-    result = `У вас закончились все попытки. Ничего, повезёт в следующий раз!`;
+    result = `У вас закончились все попытки.<br>Ничего, повезёт в следующий раз!`;
   } else {
     const {betterThanPercentage, userPlace} = calcUserPercentage(newUsersResults, currentUserResult);
-    result = `Вы заняли ${userPlace} место из ${newUsersResults.length} игроков. Это лучше, чем у ${betterThanPercentage}% игроков`;
+    result = `Вы заняли ${userPlace} место из ${newUsersResults.length} игроков. Это&nbsp;лучше, чем у&nbsp;${betterThanPercentage}%&nbsp;игроков`;
   }
 
   return result;
