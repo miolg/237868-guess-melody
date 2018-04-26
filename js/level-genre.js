@@ -1,19 +1,19 @@
 import {getElementFromTemplate} from './utils';
 import {getQuestion, showNextScreen} from './data/game-logic';
-import renderHeader from './game/header';
-import renderPlayer from './game/player';
+import getHeader from './game/header';
+import getPlayer from './game/player';
 
 // Игра на выбор жанра
 export default (data) => {
   const question = getQuestion(data);
   const levelTemplate = `
     <section class="main main--level main--level-genre">
-      ${renderHeader(data)}
+      ${getHeader(data)}
       <div class="main-wrap">
         <h2 class="title">Выберите ${question.rightAnswer.genre} треки</h2>
         <form class="genre">
           ${question.answers.map((answer, index) =>`<div class="genre-answer">
-              ${renderPlayer(answer, false)}
+              ${getPlayer(answer, false)}
               <input type="checkbox" name="answer" value=${answer.genre}" id="a-${index}">
               <label class="genre-answer-check" for="a-${index}"></label>
             </div>`).join(``)}

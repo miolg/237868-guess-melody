@@ -1,17 +1,17 @@
 import {getElementFromTemplate} from './utils';
 import {getQuestion, showNextScreen} from './data/game-logic';
-import renderHeader from './game/header';
-import renderPlayer from './game/player';
+import getHeader from './game/header';
+import getPlayer from './game/player';
 
 // Игра на выбор исполнителя
 export default (data) => {
   const question = getQuestion(data);
   const levelTemplate = `
     <section class="main main--level main--level-artist">
-      ${renderHeader(data)}
+      ${getHeader(data)}
       <div class="main-wrap">
         <h2 class="title main-title">Кто исполняет эту песню?</h2>
-        ${renderPlayer(question.rightAnswer, true)}
+        ${getPlayer(question.rightAnswer, true)}
         <form class="main-list">
           ${question.answers.map((answer, index) => `
             <div class="main-answer-wrapper">
