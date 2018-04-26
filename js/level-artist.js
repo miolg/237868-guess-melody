@@ -1,4 +1,5 @@
-import {getElementFromTemplate, showNextScreen, getQuestion} from './utils';
+import {getElementFromTemplate} from './utils';
+import {getQuestion, showNextScreen} from './data/game-logic';
 import renderHeader from './game/header';
 import renderPlayer from './game/player';
 

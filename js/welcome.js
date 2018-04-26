@@ -1,4 +1,5 @@
-import {getElementFromTemplate, showView, getQuestionView} from './utils';
+import {getElementFromTemplate, showView} from './utils';
+import {getQuestionView} from './data/game-logic';
 import {initialState} from './data/game-data';
 
 // Приветствие

@@ -58,7 +58,7 @@ export const printUserResults = (usersResults, currentUserResult) => {
     result = `У вас закончились все попытки.<br>Ничего, повезёт в следующий раз!`;
   } else {
     const {betterThanPercentage, userPlace} = calcUserPercentage(newUsersResults, currentUserResult);
-    result = `Вы заняли ${userPlace} место из ${newUsersResults.length} игроков. Это&nbsp;лучше, чем у&nbsp;${betterThanPercentage}%&nbsp;игроков`;
+    result = `Вы заняли ${userPlace} место из ${newUsersResults.length} игроков. Это лучше, чем у ${betterThanPercentage}% игроков`;
   }
 
   return result;

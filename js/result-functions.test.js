@@ -65,8 +65,8 @@ describe(`User points calculation`, () => {
 
 describe(`Printing user results`, () => {
   it(`should return fail when user didn't complete the game`, () => {
-    assert.equal(printUserResults([], {points: 8, remainingTime: 0, remainingTries: 3}), `Время вышло! Вы не успели отгадать все мелодии`, `expired time`);
-    assert.equal(printUserResults([], {points: 8, remainingTime: 10, remainingTries: 0}), `У вас закончились все попытки. Ничего, повезёт в следующий раз!`, `expired tries`);
+    assert.equal(printUserResults([], {points: 8, remainingTime: 0, remainingTries: 3}), `Время вышло!<br>Вы не успели отгадать все мелодии`, `expired time`);
+    assert.equal(printUserResults([], {points: 8, remainingTime: 10, remainingTries: 0}), `У вас закончились все попытки.<br>Ничего, повезёт в следующий раз!`, `expired tries`);
   });
 
   it(`should return results when user successfully completed the game`, () => {
