@@ -5,12 +5,12 @@ import welcome from './welcome';
 
 // Результат игры - проигрыш: время вышло или закончились попытки
 export default (data) => {
+  const {userPoints} = calcUserPoints(data.userAnswers, data.lives);
   const userResult = {
-    points: calcUserPoints(data.userAnswers, data.lives),
+    points: userPoints,
     remainingTime: data.time,
     remainingTries: data.lives
   };
-
   const title = data.lives > 0 ? `Какая жалость!` : `Увы и ах!`;
 
   const viewElement = getElementFromTemplate(`

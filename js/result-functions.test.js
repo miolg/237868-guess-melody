@@ -11,7 +11,7 @@ const _calcRemainingTriesCount = (answers) => {
 
 describe(`User points calculation`, () => {
   it(`should return -1 when user didn't complete the game`, () => {
-    assert.equal(calcUserPoints([{passed: false, time: 15}, {passed: true, time: 30}], 2), -1);
+    assert.deepEqual(calcUserPoints([{passed: false, time: 15}, {passed: true, time: 30}], 2), {userPoints: -1, fastPoints: -1});
   });
 
   it(`should return 10 points when user slowly passed all the answers without any mistakes`, () => {
@@ -19,7 +19,7 @@ describe(`User points calculation`, () => {
     for (let i = 0; i < 10; i++) {
       answers.push({passed: true, time: 30 + i});
     }
-    assert.equal(calcUserPoints(answers, 3), 10);
+    assert.deepEqual(calcUserPoints(answers, 3), {userPoints: 10, fastPoints: 0});
   });
 
   it(`should return 20 points when user quickly passed all the answers without any mistakes`, () => {
@@ -27,7 +27,7 @@ describe(`User points calculation`, () => {
     for (let i = 0; i < 10; i++) {
       answers.push({passed: true, time: 10 + i});
     }
-    assert.equal(calcUserPoints(answers, 3), 20);
+    assert.deepEqual(calcUserPoints(answers, 3), {userPoints: 20, fastPoints: 20});
   });
 
   it(`should return -1 when user failed more answers than it is allowed`, () => {
@@ -35,7 +35,7 @@ describe(`User points calculation`, () => {
     for (let i = 0; i < 10; i++) {
       answers.push({passed: i % 2 === 0, time: 10 + i});
     }
-    assert.equal(calcUserPoints(answers, _calcRemainingTriesCount(answers)), -1);
+    assert.deepEqual(calcUserPoints(answers, _calcRemainingTriesCount(answers)), {userPoints: -1, fastPoints: -1});
   });
 
   it(`should return correct points when user passed all the answers but made some mistakes`, () => {
@@ -44,22 +44,22 @@ describe(`User points calculation`, () => {
       answers.push({passed: i !== 0, time: 10 + i});
     }
 
-    assert.equal(calcUserPoints(answers, _calcRemainingTriesCount(answers)), 16, `1 error, quick answering`);
+    assert.deepEqual(calcUserPoints(answers, _calcRemainingTriesCount(answers)), {userPoints: 16, fastPoints: 16}, `1 error, quick answering`);
 
     answers[5].passed = false;
-    assert.equal(calcUserPoints(answers, _calcRemainingTriesCount(answers)), 12, `2 errors, quick answering`);
+    assert.deepEqual(calcUserPoints(answers, _calcRemainingTriesCount(answers)), {userPoints: 12, fastPoints: 12}, `2 errors, quick answering`);
 
     for (let i = 0; i < 10; i++) {
       answers[i].time = 30 + i;
     }
     answers[5].passed = true;
-    assert.equal(calcUserPoints(answers, _calcRemainingTriesCount(answers)), 7, `1 error, slow answering`);
+    assert.deepEqual(calcUserPoints(answers, _calcRemainingTriesCount(answers)), {userPoints: 7, fastPoints: 0}, `1 error, slow answering`);
 
     answers[5].passed = false;
-    assert.equal(calcUserPoints(answers, _calcRemainingTriesCount(answers)), 4, `2 errors, slow answering`);
+    assert.deepEqual(calcUserPoints(answers, _calcRemainingTriesCount(answers)), {userPoints: 4, fastPoints: 0}, `2 errors, slow answering`);
 
     answers[9].passed = false;
-    assert.equal(calcUserPoints(answers, _calcRemainingTriesCount(answers)), -1, `3 errors`);
+    assert.deepEqual(calcUserPoints(answers, _calcRemainingTriesCount(answers)), {userPoints: -1, fastPoints: -1}, `3 errors`);
   });
 });
 

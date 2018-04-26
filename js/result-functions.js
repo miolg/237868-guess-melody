@@ -1,37 +1,31 @@
-import {PointsRule} from './data/game-data';
-
-export const calcFastPoints = (userAnswers, remainingTriesCount) => {
-  let fastPoints = 0;
-
-  if (userAnswers.length < 10 || remainingTriesCount === 0) {
-    fastPoints = -1;
-  } else {
-    for (const answer of userAnswers) {
-      if (answer.passed && answer.time < PointsRule.TIME_LIMIT) {
-        fastPoints += PointsRule.FAST_SUCCESS;
-      }
-    }
-  }
-
-  return fastPoints;
+export const PointsRule = {
+  TIME_LIMIT: 30,
+  FAIL: 2,
+  SUCCESS: 1,
+  FAST_SUCCESS: 2
 };
 
 export const calcUserPoints = (userAnswers, remainingTriesCount) => {
   let userPoints = 0;
+  let fastPoints = 0;
 
   if (userAnswers.length < 10 || remainingTriesCount === 0) {
     userPoints = -1;
+    fastPoints = -1;
   } else {
     for (const answer of userAnswers) {
       if (answer.passed) {
         userPoints += answer.time < PointsRule.TIME_LIMIT ? PointsRule.FAST_SUCCESS : PointsRule.SUCCESS;
+        fastPoints += answer.time < PointsRule.TIME_LIMIT ? PointsRule.FAST_SUCCESS : 0;
       } else {
         userPoints -= PointsRule.FAIL;
+        fastPoints -= PointsRule.FAIL;
       }
     }
+    fastPoints = fastPoints < 0 ? 0 : fastPoints;
   }
 
-  return userPoints;
+  return {userPoints, fastPoints};
 };
 
 export const getNewUsersResultsList = (usersResults, currentUserResult) => {
