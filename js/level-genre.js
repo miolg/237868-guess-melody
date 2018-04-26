@@ -25,6 +25,7 @@ export default (data) => {
   const viewElement = getElementFromTemplate(levelTemplate);
   const formElement = viewElement.querySelector(`.genre`);
   const formAnswers = Array.from(formElement.answer);
+  const audios = formElement.querySelectorAll(`audio`);
   const button = viewElement.querySelector(`.genre-answer-send`);
   button.disabled = true;
 
@@ -35,11 +36,17 @@ export default (data) => {
   formElement.addEventListener(`click`, (event) => {
     const target = event.target;
     if (target.className.includes(`player-control`)) {
-      const audios = formElement.querySelectorAll(`audio`);
+      const currentAudio = target.parentNode.querySelector(`audio`);
+      const isAlreadyPlaying = !currentAudio.paused;
       audios.forEach((item) => item.pause());
-      target.parentNode.querySelector(`audio`).play();
+      if (isAlreadyPlaying) {
+        currentAudio.pause();
+      } else {
+        currentAudio.play();
+      }
     }
   });
+
 
   button.addEventListener(`click`, () => {
     let isRightAnswer = true;
