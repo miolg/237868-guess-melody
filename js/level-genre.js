@@ -12,7 +12,7 @@ export default (data) => {
         <h2 class="title">Выберите ${question.rightAnswer.genre} треки</h2>
         <form class="genre">
           ${question.answers.map((answer, index) =>`<div class="genre-answer">
-              ${renderPlayer(answer)}
+              ${renderPlayer(answer, false)}
               <input type="checkbox" name="answer" value=${answer.genre}" id="a-${index}">
               <label class="genre-answer-check" for="a-${index}"></label>
             </div>`).join(``)}
@@ -29,6 +29,15 @@ export default (data) => {
 
   formElement.addEventListener(`change`, () => {
     button.disabled = !formAnswers.some((item) => item.checked);
+  });
+
+  formElement.addEventListener(`click`, (event) => {
+    const target = event.target;
+    if (target.className.includes(`player-control`)) {
+      const audios = formElement.querySelectorAll(`audio`);
+      audios.forEach((item) => item.pause());
+      target.parentNode.querySelector(`audio`).play();
+    }
   });
 
   button.addEventListener(`click`, () => {

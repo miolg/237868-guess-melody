@@ -10,7 +10,7 @@ export default (data) => {
       ${renderHeader(data)}
       <div class="main-wrap">
         <h2 class="title main-title">Кто исполняет эту песню?</h2>
-        ${renderPlayer(question)}
+        ${renderPlayer(question.rightAnswer, true)}
         <form class="main-list">
           ${question.answers.map((answer, index) => `
             <div class="main-answer-wrapper">
@@ -35,6 +35,16 @@ export default (data) => {
     const newState = Object.assign({}, data, {currentQuestion: data.currentQuestion + 1, userAnswers, lives});
     showNextScreen(newState);
     event.target.checked = false;
+  });
+
+  const playButton = viewElement.querySelector(`.player-control`);
+  playButton.addEventListener(`click`, () => {
+    const audio = viewElement.querySelector(`audio`);
+    if (audio.paused) {
+      audio.play();
+    } else {
+      audio.pause();
+    }
   });
 
   return viewElement;

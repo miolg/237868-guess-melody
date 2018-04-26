@@ -4,7 +4,7 @@ export const calcFastPoints = (userAnswers, remainingTriesCount) => {
   let fastPoints = 0;
 
   if (userAnswers.length < 10 || remainingTriesCount === 0) {
-    userPoints = -1;
+    fastPoints = -1;
   } else {
     for (const answer of userAnswers) {
       if (answer.passed && answer.time < PointsRule.TIME_LIMIT) {
