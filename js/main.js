@@ -1,4 +1,4 @@
-import welcome from './welcome.js';
-import {showView} from './utils.js';
+import welcome from './welcome';
+import {showView} from './utils';
 
 showView(welcome);

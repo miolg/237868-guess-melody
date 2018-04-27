@@ -1,112 +1,68 @@
-import {getElementFromTemplate, showView} from './utils.js';
-import winResult from './win-result.js';
-import expiredTimeResult from './expired-time-result.js';
-import expiredTriesResult from './expired-tries-result.js';
+import {getElementFromTemplate} from './utils';
+import {getQuestion, showNextScreen} from './data/game-logic';
+import getHeader from './game/header';
+import getPlayer from './game/player';
 
 // Игра на выбор жанра
-const viewElement = getElementFromTemplate(`
-  <section class="main main--level main--level-genre">
-    <svg xmlns="http://www.w3.org/2000/svg" class="timer" viewBox="0 0 780 780">
-      <circle
-        cx="390" cy="390" r="370"
-        class="timer-line"
-        style="filter: url(.#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center"></circle>
-
-      <div class="timer-value" xmlns="http://www.w3.org/1999/xhtml">
-        <span class="timer-value-mins">05</span><!--
-        --><span class="timer-value-dots">:</span><!--
-        --><span class="timer-value-secs">00</span>
+export default (data) => {
+  const question = getQuestion(data);
+  const levelTemplate = `
+    <section class="main main--level main--level-genre">
+      ${getHeader(data)}
+      <div class="main-wrap">
+        <h2 class="title">Выберите ${question.rightAnswer.genre} треки</h2>
+        <form class="genre">
+          ${question.answers.map((answer, index) =>`<div class="genre-answer">
+              ${getPlayer(answer, false)}
+              <input type="checkbox" name="answer" value=${answer.genre}" id="a-${index}">
+              <label class="genre-answer-check" for="a-${index}"></label>
+            </div>`).join(``)}
+          <button class="genre-answer-send" type="submit">Ответить</button>
+        </form>
       </div>
-    </svg>
-    <div class="main-mistakes">
-      <img class="main-mistake" src="img/wrong-answer.png" width="35" height="49">
-      <img class="main-mistake" src="img/wrong-answer.png" width="35" height="49">
-      <img class="main-mistake" src="img/wrong-answer.png" width="35" height="49">
-    </div>
+    </section>`;
 
-    <div class="main-wrap">
-      <h2 class="title">Выберите инди-рок треки</h2>
-      <form class="genre">
-        <div class="genre-answer">
-          <div class="player-wrapper">
-            <div class="player">
-              <audio></audio>
-              <button class="player-control player-control--pause"></button>
-              <div class="player-track">
-                <span class="player-status"></span>
-              </div>
-            </div>
-          </div>
-          <input type="checkbox" name="answer" value="answer-1" id="a-1">
-          <label class="genre-answer-check" for="a-1"></label>
-        </div>
-
-        <div class="genre-answer">
-          <div class="player-wrapper">
-            <div class="player">
-              <audio></audio>
-              <button class="player-control player-control--play"></button>
-              <div class="player-track">
-                <span class="player-status"></span>
-              </div>
-            </div>
-          </div>
-          <input type="checkbox" name="answer" value="answer-1" id="a-2">
-          <label class="genre-answer-check" for="a-2"></label>
-        </div>
-
-        <div class="genre-answer">
-          <div class="player-wrapper">
-            <div class="player">
-              <audio></audio>
-              <button class="player-control player-control--play"></button>
-              <div class="player-track">
-                <span class="player-status"></span>
-              </div>
-            </div>
-          </div>
-          <input type="checkbox" name="answer" value="answer-1" id="a-3">
-          <label class="genre-answer-check" for="a-3"></label>
-        </div>
-
-        <div class="genre-answer">
-          <div class="player-wrapper">
-            <div class="player">
-              <audio></audio>
-              <button class="player-control player-control--play"></button>
-              <div class="player-track">
-                <span class="player-status"></span>
-              </div>
-            </div>
-          </div>
-          <input type="checkbox" name="answer" value="answer-1" id="a-4">
-          <label class="genre-answer-check" for="a-4"></label>
-        </div>
-
-        <button class="genre-answer-send" type="submit">Ответить</button>
-      </form>
-    </div>
-  </section>
-`);
-const formElement = viewElement.querySelector(`.genre`);
-const answers = Array.from(formElement.answer);
-const button = viewElement.querySelector(`.genre-answer-send`);
-const nextScreens = [winResult, expiredTimeResult, expiredTriesResult];
-
-button.disabled = true;
-
-formElement.addEventListener(`change`, () => {
-  button.disabled = !answers.some((item) => item.checked);
-});
-
-
-button.addEventListener(`click`, () => {
-  const screenIndex = Math.floor(Math.random() * nextScreens.length);
-  answers.forEach((item) => {
-    item.checked = false;
-  });
+  const viewElement = getElementFromTemplate(levelTemplate);
+  const formElement = viewElement.querySelector(`.genre`);
+  const formAnswers = Array.from(formElement.answer);
+  const audios = formElement.querySelectorAll(`audio`);
+  const button = viewElement.querySelector(`.genre-answer-send`);
   button.disabled = true;
-  showView(nextScreens[screenIndex]);
-});
 
-export default viewElement;
+  formElement.addEventListener(`change`, () => {
+    button.disabled = !formAnswers.some((item) => item.checked);
+  });
+
+  formElement.addEventListener(`click`, (event) => {
+    const target = event.target;
+    if (target.className.includes(`player-control`)) {
+      const currentAudio = target.parentNode.querySelector(`audio`);
+      const isAlreadyPlaying = !currentAudio.paused;
+      audios.forEach((item) => item.pause());
+      if (isAlreadyPlaying) {
+        currentAudio.pause();
+      } else {
+        currentAudio.play();
+      }
+    }
+  });
+
+
+  button.addEventListener(`click`, () => {
+    let isRightAnswer = true;
+    formAnswers.forEach((item) => {
+      if (item.value !== question.rightAnswer.genre) {
+        isRightAnswer = false;
+      }
+      item.checked = false;
+    });
+    button.disabled = true;
+    const userAnswers = data.userAnswers.slice();
+    userAnswers.push({passed: isRightAnswer, time: 15});
+    const lives = isRightAnswer ? data.lives : data.lives - 1;
+    const newState = Object.assign({}, data, {currentQuestion: data.currentQuestion + 1, userAnswers, lives});
+    showNextScreen(newState);
+  });
+
+  return viewElement;
+};
