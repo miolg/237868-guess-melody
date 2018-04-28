@@ -1,6 +1,6 @@
 const FAST_TIME_LIMIT = 30;
 
-export const PointsRule = {
+const PointsRule = {
   FAIL: 2,
   SUCCESS: 1,
   FAST_SUCCESS: 2

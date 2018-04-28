@@ -54,19 +54,8 @@ export default class ArtistView extends AbstractView {
     });
 
     button.addEventListener(`click`, () => {
-      let isRightAnswer = true;
-      formAnswers.forEach((item) => {
-        if (item.value !== this.question.rightAnswer.genre) {
-          isRightAnswer = false;
-        }
-        item.checked = false;
-      });
       button.disabled = true;
-      const userAnswers = this.state.userAnswers.slice();
-      userAnswers.push({passed: isRightAnswer, time: 15});
-      const lives = isRightAnswer ? this.state.lives : this.state.lives - 1;
-      const newState = Object.assign({}, this.state, {currentQuestion: this.state.currentQuestion + 1, userAnswers, lives});
-      this.onButtonClick(newState);
+      this.onButtonClick(formAnswers);
     });
   }
 

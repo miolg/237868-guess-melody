@@ -4,8 +4,10 @@ import {getQuestionView} from './data/game-logic';
 import {initialState} from './data/game-data';
 
 // Приветствие
-const viewElement = new WelcomeView();
-viewElement.onButtonClick = () => {
-  showView(getQuestionView(initialState));
+export default () => {
+  const viewElement = new WelcomeView();
+  viewElement.onButtonClick = () => {
+    showView(getQuestionView(initialState));
+  };
+  return viewElement.element;
 };
-export default viewElement.element;

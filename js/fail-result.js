@@ -7,7 +7,7 @@ export default (data) => {
   const viewElement = new FailView(data);
 
   viewElement.onButtonClick = () => {
-    showView(welcome);
+    showView(welcome());
   };
 
   return viewElement.element;

@@ -34,13 +34,8 @@ export default class ArtistView extends AbstractView {
 
   bind() {
     const formElement = this.element.querySelector(`.main-list`);
-    formElement.addEventListener(`change`, () => {
-      const isRightAnswer = this.question.rightAnswer.artist === event.target.value;
-      const userAnswers = this.state.userAnswers.slice();
-      userAnswers.push({passed: isRightAnswer, time: 15});
-      const lives = isRightAnswer ? this.state.lives : this.state.lives - 1;
-      const newState = Object.assign({}, this.state, {currentQuestion: this.state.currentQuestion + 1, userAnswers, lives});
-      this.onChange(newState);
+    formElement.addEventListener(`change`, (event) => {
+      this.onChange(event);
       event.target.checked = false;
     });
 
