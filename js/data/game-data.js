@@ -1,15 +1,25 @@
 import gameAnswers from './game-answers';
 
-const getRandomAnswers = (allAnswers, expectedNumberOfAnswers) => {
+const getRandomGenreAnswers = (allAnswers) => {
   const shuffledAnswers = allAnswers.sort(() => 0.5 - Math.random());
-  return shuffledAnswers.slice(0, expectedNumberOfAnswers);
+  return shuffledAnswers.slice(0, ANSWERS_COUNT.GENRE);
+};
+
+const getRandomArtistAnswers = (allAnswers) => {
+  let shuffledAnswers = allAnswers.sort(() => 0.5 - Math.random());
+  const artists = [...new Set(shuffledAnswers.map((item) => item.artist))];
+  let resultAnswers = [];
+  artists.forEach((artist) => {
+    resultAnswers.push(shuffledAnswers.find((answer) => artist === answer.artist));
+  });
+  return resultAnswers.slice(0, ANSWERS_COUNT.ARTIST);
 };
 
 const makeQuestionsList = (expectedNumberOfQuestions) => {
   const questions = [];
   for (let i = 0; i < expectedNumberOfQuestions; i++) {
     const type = Math.round(Math.random()) ? `artist` : `genre`;
-    const answers = getRandomAnswers(gameAnswers, type === `artist` ? ANSWERS_COUNT.ARTIST : ANSWERS_COUNT.GENRE);
+    const answers = type === `artist` ? getRandomArtistAnswers(gameAnswers) : getRandomGenreAnswers(gameAnswers);
     const rightAnswer = answers[Math.floor(Math.random() * answers.length)];
     questions.push({
       type,
