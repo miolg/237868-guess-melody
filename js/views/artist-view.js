@@ -35,7 +35,7 @@ export default class ArtistView extends AbstractView {
   bind() {
     const formElement = this.element.querySelector(`.main-list`);
     formElement.addEventListener(`change`, (event) => {
-      this.onChange(event);
+      this.onChange(event.target.value);
       event.target.checked = false;
     });
 

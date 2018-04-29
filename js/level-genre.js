@@ -5,14 +5,8 @@ import GenreView from './views/genre-view';
 export default (data) => {
   const viewElement = new GenreView(data);
 
-  viewElement.onButtonClick = (formAnswers) => {
-    let isRightAnswer = true;
-    formAnswers.forEach((item) => {
-      if (item.value !== viewElement.question.rightAnswer.genre) {
-        isRightAnswer = false;
-      }
-      item.checked = false;
-    });
+  viewElement.onButtonClick = (checkedGenres) => {
+    const isRightAnswer = checkedGenres.every((item) => item === viewElement.question.rightAnswer.genre) && checkedGenres.length === viewElement.question.rightAnswersCount;
     const userAnswers = viewElement.state.userAnswers.slice();
     userAnswers.push({passed: isRightAnswer, time: 15});
     const lives = isRightAnswer ? viewElement.state.lives : viewElement.state.lives - 1;

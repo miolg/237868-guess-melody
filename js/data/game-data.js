@@ -21,10 +21,12 @@ const makeQuestionsList = (expectedNumberOfQuestions) => {
     const type = Math.round(Math.random()) ? `artist` : `genre`;
     const answers = type === `artist` ? getRandomArtistAnswers(gameAnswers) : getRandomGenreAnswers(gameAnswers);
     const rightAnswer = answers[Math.floor(Math.random() * answers.length)];
+    const rightAnswersCount = type === `artist` ? answers.filter((item) => item.artist === rightAnswer.artist).length : answers.filter((item) => item.genre === rightAnswer.genre).length;
     questions.push({
       type,
       answers,
-      rightAnswer
+      rightAnswer,
+      rightAnswersCount
     });
   }
   return questions;

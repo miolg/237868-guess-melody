@@ -55,7 +55,10 @@ export default class ArtistView extends AbstractView {
 
     button.addEventListener(`click`, () => {
       button.disabled = true;
-      this.onButtonClick(formAnswers);
+      this.onButtonClick(formAnswers.map((item) => item.value));
+      formAnswers.forEach((item) => {
+        item.checked = false;
+      });
     });
   }
 

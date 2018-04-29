@@ -5,8 +5,8 @@ import ArtistView from './views/artist-view';
 export default (data) => {
   const viewElement = new ArtistView(data);
 
-  viewElement.onChange = (event) => {
-    const isRightAnswer = viewElement.question.rightAnswer.artist === event.target.value;
+  viewElement.onChange = (checkedArtist) => {
+    const isRightAnswer = viewElement.question.rightAnswer.artist === checkedArtist;
     const userAnswers = viewElement.state.userAnswers.slice();
     userAnswers.push({passed: isRightAnswer, time: 15});
     const lives = isRightAnswer ? viewElement.state.lives : viewElement.state.lives - 1;
