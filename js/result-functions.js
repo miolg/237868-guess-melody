@@ -1,5 +1,6 @@
-export const PointsRule = {
-  TIME_LIMIT: 30,
+const FAST_TIME_LIMIT = 30;
+
+const PointsRule = {
   FAIL: 2,
   SUCCESS: 1,
   FAST_SUCCESS: 2
@@ -15,8 +16,8 @@ export const calcUserPoints = (userAnswers, remainingTriesCount) => {
   } else {
     for (const answer of userAnswers) {
       if (answer.passed) {
-        userPoints += answer.time < PointsRule.TIME_LIMIT ? PointsRule.FAST_SUCCESS : PointsRule.SUCCESS;
-        fastPoints += answer.time < PointsRule.TIME_LIMIT ? PointsRule.FAST_SUCCESS : 0;
+        userPoints += answer.time < FAST_TIME_LIMIT ? PointsRule.FAST_SUCCESS : PointsRule.SUCCESS;
+        fastPoints += answer.time < FAST_TIME_LIMIT ? PointsRule.FAST_SUCCESS : 0;
       } else {
         userPoints -= PointsRule.FAIL;
         fastPoints -= PointsRule.FAIL;
