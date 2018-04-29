@@ -4,11 +4,11 @@ import FailView from './views/fail-view';
 
 // Результат игры - проигрыш: время вышло или закончились попытки
 export default (data) => {
-  const viewElement = new FailView(data);
+  const view = new FailView(data);
 
-  viewElement.onButtonClick = () => {
+  view.onButtonClick = () => {
     showView(welcome());
   };
 
-  return viewElement.element;
+  return view.element;
 };

@@ -5,9 +5,9 @@ import {initialState} from './data/game-data';
 
 // Приветствие
 export default () => {
-  const viewElement = new WelcomeView();
-  viewElement.onButtonClick = () => {
+  const view = new WelcomeView();
+  view.onButtonClick = () => {
     showView(getQuestionView(initialState));
   };
-  return viewElement.element;
+  return view.element;
 };

@@ -3,16 +3,16 @@ import ArtistView from './views/artist-view';
 
 // Игра на выбор исполнителя
 export default (data) => {
-  const viewElement = new ArtistView(data);
+  const view = new ArtistView(data);
 
-  viewElement.onChange = (checkedArtist) => {
-    const isRightAnswer = viewElement.question.rightAnswer.artist === checkedArtist;
-    const userAnswers = viewElement.state.userAnswers.slice();
+  view.onChange = (checkedArtist) => {
+    const isRightAnswer = data.question.rightAnswer.artist === checkedArtist;
+    const userAnswers = data.state.userAnswers.slice();
     userAnswers.push({passed: isRightAnswer, time: 15});
-    const lives = isRightAnswer ? viewElement.state.lives : viewElement.state.lives - 1;
-    const newState = Object.assign({}, viewElement.state, {currentQuestion: viewElement.state.currentQuestion + 1, userAnswers, lives});
+    const lives = isRightAnswer ? data.state.lives : data.state.lives - 1;
+    const newState = Object.assign({}, data.state, {currentQuestion: data.state.currentQuestion + 1, userAnswers, lives});
     showNextScreen(newState);
   };
 
-  return viewElement.element;
+  return view.element;
 };

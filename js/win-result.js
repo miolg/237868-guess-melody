@@ -4,11 +4,11 @@ import WinView from './views/win-view';
 
 // Результат игры: выигрыш
 export default (data) => {
-  const viewElement = new WinView(data);
+  const view = new WinView(data);
 
-  viewElement.onButtonClick = () => {
+  view.onButtonClick = () => {
     showView(welcome());
   };
 
-  return viewElement.element;
+  return view.element;
 };
