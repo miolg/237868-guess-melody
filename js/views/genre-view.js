@@ -1,13 +1,12 @@
 import AbstractView from './abstract-view';
-import {getQuestion} from '../data/game-logic';
 import getHeader from '../game/header';
 import getPlayer from '../game/player';
 
 export default class ArtistView extends AbstractView {
-  constructor(state) {
+  constructor(state, question) {
     super();
     this.state = state;
-    this.question = getQuestion(state);
+    this.question = question;
   }
 
   get template() {
@@ -55,7 +54,7 @@ export default class ArtistView extends AbstractView {
 
     button.addEventListener(`click`, () => {
       button.disabled = true;
-      this.onButtonClick(formAnswers.map((item) => item.value));
+      this.onButtonClick(formAnswers.filter((item) => item.checked).map((item) => item.value));
       formAnswers.forEach((item) => {
         item.checked = false;
       });

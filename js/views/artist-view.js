@@ -1,13 +1,12 @@
 import AbstractView from './abstract-view';
-import {getQuestion} from '../data/game-logic';
 import getHeader from '../game/header';
 import getPlayer from '../game/player';
 
 export default class ArtistView extends AbstractView {
-  constructor(state) {
+  constructor(state, question) {
     super();
     this.state = state;
-    this.question = getQuestion(state);
+    this.question = question;
   }
 
   get template() {

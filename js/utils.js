@@ -1,9 +1,3 @@
-export const getElementFromTemplate = (template) => {
-  const outerElement = document.createElement(`div`);
-  outerElement.innerHTML = template;
-  return outerElement.children[0];
-};
-
 export const showView = (element) => {
   const appElement = document.querySelector(`.app`);
   const mainElement = document.querySelector(`.app > .main`);
