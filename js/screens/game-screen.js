@@ -4,6 +4,7 @@ import ArtistView from '../views/artist-view';
 import WinView from '../views/win-view';
 import FailView from '../views/fail-view';
 
+import {getMinuteAndSeconds} from '../utils';
 import Application from '../application';
 import {showView} from '../utils';
 
@@ -66,7 +67,9 @@ export default class GameScreen {
   }
 
   showNextQuestion() {
-    showView(this.getQuestionView(this.model.setNextQuestion()).element);
+    this.model.setNextQuestion();
+    this.view = this.getQuestionView();
+    showView(this.view.element);
     this.startGame();
   }
 
@@ -87,6 +90,9 @@ export default class GameScreen {
   }
 
   updateHeader() {
-    // update header time in-flight
+    const {minutes, seconds} = getMinuteAndSeconds(this.model.state.time);
+    const timerElement = this.view.element.querySelector(`.timer-value`);
+    timerElement.querySelector(`.timer-value-mins`).innerHTML = minutes;
+    timerElement.querySelector(`.timer-value-secs`).innerHTML = seconds;
   }
 }
