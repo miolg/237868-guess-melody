@@ -19,12 +19,9 @@ export default class GameModel {
     return getQuestion(this._state);
   }
 
-  getCurrentRightAnswer() {
-    return this.getCurrentQuestion().rightAnswer;
-  }
-
-  nextQuestion() {
+  setNextQuestion() {
     this._state.currentQuestion += 1;
+    this._state.currentQuestionTime = 0;
   }
 
   isAlive() {
@@ -38,7 +35,11 @@ export default class GameModel {
   updateState(newAnswer) {
     const userAnswers = this._state.userAnswers.slice();
     userAnswers.push(newAnswer);
-    const lives = newAnswer.isRightAnswer ? this._state.lives : this._state.lives - 1;
+    const lives = newAnswer.passed ? this._state.lives : this._state.lives - 1;
     this._state = Object.assign({}, this._state, {userAnswers, lives});
+  }
+
+  updateTime(time) {
+    this._state = Object.assign({}, this._state, {time, currentQuestionTime: this._state.currentQuestionTime + 1});
   }
 }

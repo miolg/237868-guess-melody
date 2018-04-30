@@ -11,8 +11,7 @@ export default class Application {
   }
 
   static showGame() {
-    const model = new GameModel();
-    const game = new GameScreen(model);
+    const game = new GameScreen(new GameModel());
     showView(game.element);
     game.startGame();
   }

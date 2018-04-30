@@ -1,4 +1,4 @@
-// import setTimer from '../set-timer';
+import {setTimer} from '../set-timer';
 import GenreView from '../views/genre-view';
 import ArtistView from '../views/artist-view';
 import WinView from '../views/win-view';
@@ -11,6 +11,9 @@ export default class GameScreen {
   constructor(model) {
     this.model = model;
     this.view = this.getQuestionView();
+
+    this._timer = setTimer(this.model.state.time);
+    this._interval = null;
   }
 
   get element() {
@@ -18,7 +21,15 @@ export default class GameScreen {
   }
 
   startGame() {
-    // start timer here
+    this._interval = setInterval(() => {
+      this._timer.tick();
+      this.model.updateTime(this._timer.time);
+      this.updateHeader();
+    }, 1000);
+  }
+
+  stopGame() {
+    clearInterval(this._interval);
   }
 
   getQuestionView() {
@@ -27,41 +38,55 @@ export default class GameScreen {
     if (question.type === `artist`) {
       questionView = new ArtistView(this.model.state, question);
       questionView.onChange = (checkedArtist) => {
-        const isRightAnswer = this.model.getCurrentRightAnswer().artist === checkedArtist;
-        this.model.updateState({passed: isRightAnswer, time: 15});
-        this.showNextView();
+        const isRightAnswer = this.model.getCurrentQuestion().rightAnswer.artist === checkedArtist;
+        this.model.updateState({passed: isRightAnswer, time: this.model.state.currentQuestionTime});
+        this.resolveNextStep();
       };
     } else if (question.type === `genre`) {
       questionView = new GenreView(this.model.state, question);
       questionView.onButtonClick = (checkedGenres) => {
-        const isRightAnswer = checkedGenres.every((item) => item === this.model.getCurrentRightAnswer().genre);
-        this.model.updateState({passed: isRightAnswer, time: 15});
-        this.showNextView();
+        const isRightAnswer = checkedGenres.every((item) => item === this.model.getCurrentQuestion().rightAnswer.genre);
+        this.model.updateState({passed: isRightAnswer, time: this.model.state.currentQuestionTime});
+        this.resolveNextStep();
       };
 
     }
     return questionView;
   }
 
-  getNextView() {
-    let nextView;
+  resolveNextStep() {
+    this.stopGame();
     if (!this.model.isAlive()) {
-      nextView = new FailView(this.model.state);
-      nextView.onButtonClick = () => {
-        Application.showWelcome();
-      };
+      this.showResult(false);
     } else if (this.model.isWon()) {
-      nextView = new WinView(this.model.state);
-      nextView.onButtonClick = () => {
+      this.showResult(true);
+    } else {
+      this.showNextQuestion();
+    }
+  }
+
+  showNextQuestion() {
+    showView(this.getQuestionView(this.model.setNextQuestion()).element);
+    this.startGame();
+  }
+
+  showResult(isWon) {
+    let resultView;
+    if (!isWon) {
+      resultView = new FailView(this.model.state);
+      resultView.onButtonClick = () => {
         Application.showWelcome();
       };
     } else {
-      nextView = this.getQuestionView(this.model.nextQuestion());
+      resultView = new WinView(this.model.state);
+      resultView.onButtonClick = () => {
+        Application.showWelcome();
+      };
     }
-    return nextView;
+    showView(resultView.element);
   }
 
-  showNextView() {
-    showView(this.getNextView().element);
+  updateHeader() {
+    // update header time in-flight
   }
 }
