@@ -71,11 +71,7 @@ export default class GameScreen {
     if (!this.model.isAlive) {
       this.showTimeIsOver();
     } else if (this.model.isWon) {
-      this.view = new WinView(this.model.state);
-      this.view.onButtonClick = () => {
-        Application.showWelcome();
-      };
-      Application.showResult(this.view);
+      Application.showResult(new WinView(this.model.state));
     } else {
       this.model.setNextQuestion();
       this.view = this.getQuestionView();
@@ -89,11 +85,7 @@ export default class GameScreen {
   }
 
   showTimeIsOver() {
-    this.view = new FailView(this.model.state);
-    this.view.onButtonClick = () => {
-      Application.showWelcome();
-    };
-    Application.showResult(this.view);
+    Application.showResult(new FailView(this.model.state));
   }
 
   updateHeader() {

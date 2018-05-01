@@ -17,6 +17,9 @@ export default class Application {
   }
 
   static showResult(view) {
+    view.onButtonClick = () => {
+      this.showWelcome();
+    };
     showView(view.element);
   }
 }
