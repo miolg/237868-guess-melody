@@ -42,8 +42,8 @@ export const ANSWERS_COUNT = {
 };
 
 export const initialState = Object.freeze({
-  currentQuestion: 0,
-  currentQuestionTime: 0,
+  currentQuestion: 1,
+  currentQuestionTime: GAME.MAX_TIME,
   time: GAME.MAX_TIME,
   lives: GAME.MAX_LIVES,
   questions: makeQuestionsList(GAME.MAX_QUESTIONS),

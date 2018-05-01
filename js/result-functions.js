@@ -1,3 +1,5 @@
+import {GAME} from './data/game-data';
+
 const FAST_TIME_LIMIT = 30;
 
 const PointsRule = {
@@ -10,7 +12,7 @@ export const calcUserPoints = (userAnswers, remainingTriesCount) => {
   let userPoints = 0;
   let fastPoints = 0;
 
-  if (userAnswers.length < 10 || remainingTriesCount === 0) {
+  if (userAnswers.length < GAME.MAX_QUESTIONS || remainingTriesCount === 0) {
     userPoints = -1;
     fastPoints = -1;
   } else {

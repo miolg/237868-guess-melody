@@ -1,6 +1,6 @@
 import {initialState, GAME} from './game-data';
 
-const getQuestion = (state) => state.questions[state.currentQuestion];
+const getQuestion = (state) => state.questions[state.currentQuestion - 1];
 
 export default class GameModel {
   constructor() {
@@ -21,15 +21,15 @@ export default class GameModel {
 
   setNextQuestion() {
     this._state.currentQuestion += 1;
-    this._state.currentQuestionTime = 0;
+    this._state.currentQuestionTime = this._state.time;
   }
 
-  isAlive() {
-    return this._state.lives > 0;
+  get isAlive() {
+    return this._state.lives > 0 && this._state.time > 0;
   }
 
-  isWon() {
-    return this.isAlive() && this._state.currentQuestion === GAME.MAX_QUESTIONS;
+  get isWon() {
+    return this.isAlive && this._state.currentQuestion === GAME.MAX_QUESTIONS;
   }
 
   updateState(newAnswer) {
@@ -40,6 +40,6 @@ export default class GameModel {
   }
 
   updateTime(time) {
-    this._state = Object.assign({}, this._state, {time, currentQuestionTime: this._state.currentQuestionTime + 1});
+    this._state = Object.assign({}, this._state, {time});
   }
 }

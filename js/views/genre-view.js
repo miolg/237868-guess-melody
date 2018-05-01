@@ -18,7 +18,7 @@ export default class ArtistView extends AbstractView {
           <form class="genre">
             ${this.question.answers.map((answer, index) =>`<div class="genre-answer">
                 ${getPlayer(answer, false)}
-                <input type="checkbox" name="answer" value=${answer.genre}" id="a-${index}">
+                <input type="checkbox" name="answer" value="${answer.genre}" id="a-${index}">
                 <label class="genre-answer-check" for="a-${index}"></label>
               </div>`).join(``)}
             <button class="genre-answer-send" type="submit">Ответить</button>

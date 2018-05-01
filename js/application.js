@@ -15,4 +15,8 @@ export default class Application {
     showView(game.element);
     game.startGame();
   }
+
+  static showResult(view) {
+    showView(view.element);
+  }
 }
