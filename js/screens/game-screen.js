@@ -47,21 +47,23 @@ export default class GameScreen {
       questionView = new ArtistView(this.model.state, question);
       questionView.onChange = (checkedArtist) => {
         const isRightAnswer = this.model.getCurrentQuestion().rightAnswer.artist === checkedArtist;
-        const time = this.model.state.currentQuestionTime - this.model.state.time;
-        this.model.updateState({passed: isRightAnswer, time});
-        this.resolveNextStep();
+        this.setAnswer(isRightAnswer);
       };
     } else if (question.type === `genre`) {
       questionView = new GenreView(this.model.state, question);
       questionView.onButtonClick = (checkedGenres) => {
         const isRightAnswer = checkedGenres.every((item) => item === this.model.getCurrentQuestion().rightAnswer.genre);
-        const time = this.model.state.currentQuestionTime - this.model.state.time;
-        this.model.updateState({passed: isRightAnswer, time});
-        this.resolveNextStep();
+        this.setAnswer(isRightAnswer);
       };
 
     }
     return questionView;
+  }
+
+  setAnswer(isRightAnswer) {
+    const time = this.model.state.currentQuestionTime - this.model.state.time;
+    this.model.updateState({passed: isRightAnswer, time});
+    this.resolveNextStep();
   }
 
   resolveNextStep() {
