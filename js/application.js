@@ -2,6 +2,7 @@ import GameModel from './data/game-model';
 import {adaptData} from './data/data-adapter';
 import WelcomeScreen from './screens/welcome-screen';
 import GameScreen from './screens/game-screen';
+import ErrorView from './views/error-view';
 import {showView} from './utils';
 
 const checkStatus = (response) => {
@@ -21,7 +22,7 @@ export default class Application {
         .then((response) => response.json())
         .then((data) => adaptData(data))
         .then((data) => Application.unlockGame(data))
-        .catch(Application.showError);
+        .catch((error) => Application.showError(error));
   }
 
   static showWelcome() {
@@ -45,5 +46,10 @@ export default class Application {
   static unlockGame(data) {
     questions = data;
     document.querySelector(`.main-play`).removeAttribute(`disabled`);
+  }
+
+  static showError(error) {
+    const errorView = new ErrorView(error);
+    showView(errorView.element);
   }
 }
