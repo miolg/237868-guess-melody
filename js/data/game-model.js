@@ -3,16 +3,16 @@ import {initialState, GAME} from './game-data';
 const getQuestion = (state) => state.questions[state.currentQuestion - 1];
 
 export default class GameModel {
-  constructor() {
-    this.startGame();
+  constructor(questions) {
+    this.startGame(questions);
   }
 
   get state() {
     return this._state;
   }
 
-  startGame() {
-    this._state = initialState;
+  startGame(questions) {
+    this._state = Object.assign({}, initialState, {questions});
   }
 
   getCurrentQuestion() {
