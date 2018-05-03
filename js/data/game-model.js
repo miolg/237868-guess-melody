@@ -9,6 +9,14 @@ export default class GameModel {
     return this._state;
   }
 
+  get isAlive() {
+    return this._state.lives > 0 && this._state.time > 0;
+  }
+
+  get isWon() {
+    return this.isAlive && this._state.currentQuestion === GAME.MAX_QUESTIONS;
+  }
+
   startGame(questions) {
     this._state = Object.assign({}, initialState, {questions});
   }
@@ -24,14 +32,6 @@ export default class GameModel {
   setNextQuestion() {
     this._state.currentQuestion += 1;
     this._state.currentQuestionTime = this._state.time;
-  }
-
-  get isAlive() {
-    return this._state.lives > 0 && this._state.time > 0;
-  }
-
-  get isWon() {
-    return this.isAlive && this._state.currentQuestion === GAME.MAX_QUESTIONS;
   }
 
   updateState(newAnswer) {
