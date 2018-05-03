@@ -8,7 +8,7 @@ import {getMinuteAndSeconds} from '../utils';
 import Application from '../application';
 import {showView} from '../utils';
 
-const TIME_IS_ALMOST_OVER = 30;
+const ALMOST_OVER_TIME = 30;
 
 export default class GameScreen {
   constructor(model) {
@@ -91,7 +91,7 @@ export default class GameScreen {
   updateHeader() {
     const {minutes, seconds} = getMinuteAndSeconds(this.model.state.time);
     const timerElement = this.view.element.querySelector(`.timer-value`);
-    if (this.model.state.time < TIME_IS_ALMOST_OVER) {
+    if (this.model.state.time < ALMOST_OVER_TIME) {
       timerElement.classList.add(`timer-value--finished`);
     }
     timerElement.querySelector(`.timer-value-mins`).innerHTML = minutes;

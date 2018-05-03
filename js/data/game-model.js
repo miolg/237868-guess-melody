@@ -1,7 +1,5 @@
 import {initialState, GAME} from './game-data';
 
-const getQuestion = (state) => state.questions[state.currentQuestion - 1];
-
 export default class GameModel {
   constructor(questions) {
     this.startGame(questions);
@@ -15,8 +13,12 @@ export default class GameModel {
     this._state = Object.assign({}, initialState, {questions});
   }
 
+  getQuestion() {
+    return this._state.questions[this._state.currentQuestion - 1];
+  }
+
   getCurrentQuestion() {
-    return getQuestion(this._state);
+    return this.getQuestion();
   }
 
   setNextQuestion() {
@@ -33,13 +35,11 @@ export default class GameModel {
   }
 
   updateState(newAnswer) {
-    const userAnswers = this._state.userAnswers.slice();
-    userAnswers.push(newAnswer);
-    const lives = newAnswer.passed ? this._state.lives : this._state.lives - 1;
-    this._state = Object.assign({}, this._state, {userAnswers, lives});
+    this._state.userAnswers.push(newAnswer);
+    this._state.lives = newAnswer.passed ? this._state.lives : this._state.lives - 1;
   }
 
   updateTime(time) {
-    this._state = Object.assign({}, this._state, {time});
+    this._state.time = time;
   }
 }
