@@ -10,6 +10,7 @@ let questions;
 export default class Application {
   static start() {
     this.showWelcome();
+    Application.lockGame();
     Loader.loadData()
         .then(Application.unlockGame)
         .catch(Application.showError);
@@ -31,6 +32,11 @@ export default class Application {
       this.showWelcome();
     };
     showView(view.element);
+  }
+
+  static lockGame(data) {
+    questions = data;
+    document.querySelector(`.main-play`).disabled = true;
   }
 
   static unlockGame(data) {
