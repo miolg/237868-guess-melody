@@ -9,7 +9,7 @@ let questions;
 
 export default class Application {
   static start() {
-    this.showWelcome();
+    Application.showWelcome();
     Application.lockGame();
     Loader.loadData()
         .then(Application.unlockGame)
