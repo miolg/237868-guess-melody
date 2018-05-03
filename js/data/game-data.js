@@ -17,5 +17,3 @@ export const initialState = Object.freeze({
   questions: [],
   userAnswers: []
 });
-
-export const gameStatistics = [];

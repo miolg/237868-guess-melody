@@ -31,9 +31,8 @@ export const calcUserPoints = (userAnswers, remainingTriesCount) => {
   return {userPoints, fastPoints};
 };
 
-export const getNewUsersResultsList = (usersResults, currentUserResult) => {
+export const sortUsersResultsList = (usersResults) => {
   const newUsersResults = usersResults.slice();
-  newUsersResults.push(currentUserResult);
   return newUsersResults.sort((left, right) => {
     return right.points - left.points;
   });
@@ -47,15 +46,15 @@ const calcUserPercentage = (usersResults, currentUserResult) => {
 
 export const printUserResults = (usersResults, currentUserResult) => {
   let result = ``;
-  const newUsersResults = getNewUsersResultsList(usersResults, currentUserResult);
+  const sortedUsersResults = sortUsersResultsList(usersResults);
 
   if (currentUserResult.remainingTime === 0) {
     result = `Время вышло!<br>Вы не успели отгадать все мелодии`;
   } else if (currentUserResult.remainingTries === 0) {
     result = `У вас закончились все попытки.<br>Ничего, повезёт в следующий раз!`;
   } else {
-    const {betterThanPercentage, userPlace} = calcUserPercentage(newUsersResults, currentUserResult);
-    result = `Вы заняли ${userPlace} место из ${newUsersResults.length} игроков. Это лучше, чем у ${betterThanPercentage}% игроков`;
+    const {betterThanPercentage, userPlace} = calcUserPercentage(sortedUsersResults, currentUserResult);
+    result = `Вы заняли ${userPlace} место из ${sortedUsersResults.length} игроков. Это лучше, чем у ${betterThanPercentage}% игроков`;
   }
 
   return result;

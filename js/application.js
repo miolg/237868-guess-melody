@@ -33,7 +33,16 @@ export default class Application {
     view.onButtonClick = () => {
       this.showWelcome();
     };
-    showView(view.element);
+
+    if (view.userResult.points > -1) { // win
+      Loader.saveResults(view.userResult)
+          .then(Loader.loadResults)
+          .then(view.updateStatistics)
+          .then(showView(view.element))
+          .catch(Application.showError);
+    } else { // fail
+      showView(view.element);
+    }
   }
 
   static showError(error) {
