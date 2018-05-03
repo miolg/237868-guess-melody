@@ -21,12 +21,10 @@ const makeQuestionsList = (expectedNumberOfQuestions) => {
     const type = Math.round(Math.random()) ? `artist` : `genre`;
     const answers = type === `artist` ? getRandomArtistAnswers(gameAnswers) : getRandomGenreAnswers(gameAnswers);
     const rightAnswer = answers[Math.floor(Math.random() * answers.length)];
-    const rightAnswersCount = type === `artist` ? answers.filter((item) => item.artist === rightAnswer.artist).length : answers.filter((item) => item.genre === rightAnswer.genre).length;
     questions.push({
       type,
       answers,
-      rightAnswer,
-      rightAnswersCount
+      rightAnswer
     });
   }
   return questions;
@@ -44,7 +42,8 @@ export const ANSWERS_COUNT = {
 };
 
 export const initialState = Object.freeze({
-  currentQuestion: 0,
+  currentQuestion: 1,
+  currentQuestionTime: GAME.MAX_TIME,
   time: GAME.MAX_TIME,
   lives: GAME.MAX_LIVES,
   questions: makeQuestionsList(GAME.MAX_QUESTIONS),

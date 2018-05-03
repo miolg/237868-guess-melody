@@ -1,4 +1,3 @@
-import welcome from './welcome';
-import {showView} from './utils';
+import Application from './application';
 
-showView(welcome());
+Application.showWelcome();

@@ -14,11 +14,13 @@ export default class WinView extends AbstractView {
     };
 
     const {minutes, seconds} = getMinuteAndSeconds(initialState.time - state.time);
+    this.minutes = minutes;
+    this.seconds = seconds;
     this.minutesWord = getDeclinedNoun([`минуту`, `минуты`, `минут`], minutes);
     this.secondsWord = getDeclinedNoun([`секунду`, `секунды`, `секунд`], seconds);
     this.userPointsWord = getDeclinedNoun([`балл`, `балла`, `баллов`], userPoints);
     this.errorsNumber = GAME.MAX_LIVES - state.lives;
-    this.errorsWord = getDeclinedNoun([`ошибка`, `ошибки`, `ошибок`], this.errorsNumber);
+    this.errorsWord = getDeclinedNoun([`ошибку`, `ошибки`, `ошибок`], this.errorsNumber);
     this.userPoints = userPoints;
     this.fastPoints = fastPoints;
     this.userResultString = printUserResults(gameStatistics, userResult);

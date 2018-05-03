@@ -1,4 +1,8 @@
-import {getElementFromTemplate} from '../utils';
+export const getElementFromTemplate = (template) => {
+  const outerElement = document.createElement(`div`);
+  outerElement.innerHTML = template;
+  return outerElement.children[0];
+};
 
 export default class AbstractView {
   constructor() {
