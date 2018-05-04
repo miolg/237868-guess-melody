@@ -10,9 +10,9 @@ let questions;
 export default class Application {
   static start() {
     const welcome = Application.showWelcome();
-    welcome.lockButton();
+    welcome.view.lockButton();
     Loader.loadData()
-        .then(welcome.unlockButton())
+        .then(welcome.view.unlockButton())
         .catch(Application.showError);
   }
 
