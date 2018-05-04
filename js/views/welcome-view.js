@@ -19,6 +19,15 @@ export default class WelcomeView extends AbstractView {
       </section>`;
   }
 
+  lockButton() {
+    this.element.querySelector(`.main-play`).disabled = true;
+  }
+
+  unlockButton() {
+    this.element.querySelector(`.main-play`).removeAttribute(`disabled`);
+  }
+
+
   bind() {
     const button = this.element.querySelector(`.main-play`);
     button.addEventListener(`click`, () => {

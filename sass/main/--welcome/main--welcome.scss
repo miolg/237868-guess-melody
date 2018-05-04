@@ -29,6 +29,10 @@
   width: 0;
 }
 
+.main-play:disabled {
+  border-left-color: $color-text-grey;
+}
+
 .main-play:hover {
   transform: scale(1.05);
 }

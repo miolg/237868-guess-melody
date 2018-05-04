@@ -1,27 +1,12 @@
 import {initialState, GAME} from './game-data';
 
-const getQuestion = (state) => state.questions[state.currentQuestion - 1];
-
 export default class GameModel {
-  constructor() {
-    this.startGame();
+  constructor(questions) {
+    this.startGame(questions);
   }
 
   get state() {
     return this._state;
-  }
-
-  startGame() {
-    this._state = initialState;
-  }
-
-  getCurrentQuestion() {
-    return getQuestion(this._state);
-  }
-
-  setNextQuestion() {
-    this._state.currentQuestion += 1;
-    this._state.currentQuestionTime = this._state.time;
   }
 
   get isAlive() {
@@ -32,14 +17,29 @@ export default class GameModel {
     return this.isAlive && this._state.currentQuestion === GAME.MAX_QUESTIONS;
   }
 
+  startGame(questions) {
+    this._state = Object.assign({}, initialState, {questions});
+  }
+
+  getQuestion() {
+    return this._state.questions[this._state.currentQuestion - 1];
+  }
+
+  getCurrentQuestion() {
+    return this.getQuestion();
+  }
+
+  setNextQuestion() {
+    this._state.currentQuestion += 1;
+    this._state.currentQuestionTime = this._state.time;
+  }
+
   updateState(newAnswer) {
-    const userAnswers = this._state.userAnswers.slice();
-    userAnswers.push(newAnswer);
-    const lives = newAnswer.passed ? this._state.lives : this._state.lives - 1;
-    this._state = Object.assign({}, this._state, {userAnswers, lives});
+    this._state.userAnswers.push(newAnswer);
+    this._state.lives = newAnswer.passed ? this._state.lives : this._state.lives - 1;
   }
 
   updateTime(time) {
-    this._state = Object.assign({}, this._state, {time});
+    this._state.time = time;
   }
 }

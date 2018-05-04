@@ -14,7 +14,7 @@ export default class ArtistView extends AbstractView {
       <section class="main main--level main--level-genre">
         ${getHeader(this.state)}
         <div class="main-wrap">
-          <h2 class="title">Выберите ${this.question.rightAnswer.genre} треки</h2>
+          <h2 class="title"> ${this.question.question}</h2>
           <form class="genre">
             ${this.question.answers.map((answer, index) =>`<div class="genre-answer">
                 ${getPlayer(answer, false)}
