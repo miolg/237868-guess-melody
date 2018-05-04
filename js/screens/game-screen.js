@@ -14,8 +14,6 @@ export default class GameScreen {
   constructor(model) {
     this.model = model;
     this.view = this.getQuestionView();
-
-    this._timer = setTimer(this.model.state.time);
     this._interval = null;
   }
 
@@ -24,6 +22,7 @@ export default class GameScreen {
   }
 
   startGame() {
+    this._timer = setTimer(this.model.state.time);
     this._interval = setInterval(() => {
       this._timer.tick();
       this.model.updateTime(this._timer.time);
@@ -85,6 +84,7 @@ export default class GameScreen {
   }
 
   showTimeIsOver() {
+    this.stopGame();
     Application.showResult(new FailView(this.model.state));
   }
 

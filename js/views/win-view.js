@@ -42,6 +42,7 @@ export default class WinView extends AbstractView {
 
   updateStatistics(gameStatistics) {
     this.userResultString = printUserResults(gameStatistics, this.userResult);
+    this.element.querySelector(`.main-comparison`).innerHTML = this.userResultString;
   }
 
   bind() {

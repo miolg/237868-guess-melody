@@ -31,13 +31,13 @@ export default class Application {
 
   static showResult(view) {
     view.onButtonClick = () => {
-      this.showWelcome();
+      Application.showWelcome();
     };
 
-    if (view.userResult.points > -1) { // win
+    if (view.userResult.points > -1 && view.userResult.remainingTime > 0) { // win
       Loader.saveResults(view.userResult)
           .then(Loader.loadResults)
-          .then(view.updateStatistics)
+          .then((data) => view.updateStatistics(data))
           .then(showView(view.element))
           .catch(Application.showError);
     } else { // fail
