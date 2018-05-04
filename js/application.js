@@ -12,6 +12,7 @@ export default class Application {
     const welcome = Application.showWelcome();
     welcome.view.lockButton();
     Loader.loadData()
+        .then(Application.unlockGame)
         .then(welcome.view.unlockButton())
         .catch(Application.showError);
   }
@@ -38,5 +39,9 @@ export default class Application {
   static showError(error) {
     const errorView = new ErrorView(error);
     showView(errorView.element);
+  }
+
+  static unlockGame(data) {
+    questions = data;
   }
 }
