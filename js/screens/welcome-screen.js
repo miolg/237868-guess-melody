@@ -12,4 +12,13 @@ export default class WelcomeScreen {
   get element() {
     return this.view.element;
   }
+
+  lockButton() {
+    this.element.querySelector(`.main-play`).disabled = true;
+  }
+
+  unlockButton() {
+    this.element.querySelector(`.main-play`).removeAttribute(`disabled`);
+  }
+
 }

@@ -9,16 +9,17 @@ let questions;
 
 export default class Application {
   static start() {
-    Application.showWelcome();
-    Application.lockGame();
+    const welcome = Application.showWelcome();
+    welcome.lockButton();
     Loader.loadData()
-        .then(Application.unlockGame)
+        .then(welcome.unlockButton())
         .catch(Application.showError);
   }
 
   static showWelcome() {
     const welcome = new WelcomeScreen();
     showView(welcome.element);
+    return welcome;
   }
 
   static showGame() {
@@ -32,16 +33,6 @@ export default class Application {
       this.showWelcome();
     };
     showView(view.element);
-  }
-
-  static lockGame(data) {
-    questions = data;
-    document.querySelector(`.main-play`).disabled = true;
-  }
-
-  static unlockGame(data) {
-    questions = data;
-    document.querySelector(`.main-play`).removeAttribute(`disabled`);
   }
 
   static showError(error) {
