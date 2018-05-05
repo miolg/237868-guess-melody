@@ -12,4 +12,12 @@ export default class WelcomeScreen {
   get element() {
     return this.view.element;
   }
+
+  lockButton() {
+    this.view.lockButton();
+  }
+
+  unlockButton() {
+    this.view.unlockButton();
+  }
 }

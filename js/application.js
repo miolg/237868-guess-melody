@@ -10,10 +10,10 @@ let questions;
 export default class Application {
   static start() {
     const welcome = Application.showWelcome();
-    welcome.view.lockButton();
+    welcome.lockButton();
     Loader.loadData()
         .then(Application.unlockGame)
-        .then(welcome.view.unlockButton())
+        .then(welcome.unlockButton())
         .catch(Application.showError);
   }
 
@@ -29,19 +29,19 @@ export default class Application {
     game.startGame();
   }
 
-  static showResult(view) {
-    view.onButtonClick = () => {
+  static showResult(screen) {
+    screen.onButtonClick = () => {
       Application.showWelcome();
     };
 
-    if (view.userResult.points > -1 && view.userResult.remainingTime > 0) { // win
-      Loader.saveResults(view.userResult)
+    if (screen.userResult.points > -1 && screen.userResult.remainingTime > 0) { // win
+      Loader.saveResults(screen.userResult)
           .then(Loader.loadResults)
-          .then((data) => view.updateStatistics(data))
-          .then(showView(view.element))
+          .then((data) => screen.updateStatistics(data))
+          .then(showView(screen.element))
           .catch(Application.showError);
     } else { // fail
-      showView(view.element);
+      showView(screen.element);
     }
   }
 
