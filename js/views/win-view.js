@@ -1,13 +1,13 @@
 import AbstractView from './abstract-view';
 import {getMinuteAndSeconds, getDeclinedNoun} from '../utils';
 import {calcUserPoints, printUserResults} from '../result-functions';
-import {GAME, initialState, gameStatistics} from '../data/game-data';
+import {GAME, initialState} from '../data/game-data';
 
 export default class WinView extends AbstractView {
   constructor(state) {
     super();
     const {userPoints, fastPoints} = calcUserPoints(state.userAnswers, state.lives);
-    const userResult = {
+    this.userResult = {
       points: userPoints,
       remainingTime: state.time,
       remainingTries: state.lives
@@ -23,7 +23,7 @@ export default class WinView extends AbstractView {
     this.errorsWord = getDeclinedNoun([`ошибку`, `ошибки`, `ошибок`], this.errorsNumber);
     this.userPoints = userPoints;
     this.fastPoints = fastPoints;
-    this.userResultString = printUserResults(gameStatistics, userResult);
+    this.userResultString = ``;
   }
 
   get template() {
@@ -40,11 +40,15 @@ export default class WinView extends AbstractView {
       </section>`;
   }
 
+  updateStatistics(gameStatistics) {
+    this.userResultString = printUserResults(gameStatistics, this.userResult);
+    this.element.querySelector(`.main-comparison`).innerHTML = this.userResultString;
+  }
+
   bind() {
     const button = this.element.querySelector(`.main-replay`);
 
     button.addEventListener(`click`, () => {
-      gameStatistics.push(this.userResult);
       this.onButtonClick();
     });
   }

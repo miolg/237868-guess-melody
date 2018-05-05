@@ -1,5 +1,4 @@
 import AbstractView from './abstract-view';
-import {gameStatistics} from '../data/game-data';
 import {calcUserPoints, printUserResults} from '../result-functions';
 
 export default class FailView extends AbstractView {
@@ -12,7 +11,7 @@ export default class FailView extends AbstractView {
       remainingTries: state.lives
     };
     this.title = state.lives > 0 ? `Какая жалость!` : `Увы и ах!`;
-    this.result = printUserResults(gameStatistics, this.userResult);
+    this.result = printUserResults([], this.userResult);
   }
 
   get template() {
@@ -30,7 +29,6 @@ export default class FailView extends AbstractView {
     const button = this.element.querySelector(`.main-replay`);
 
     button.addEventListener(`click`, () => {
-      gameStatistics.push(this.userResult);
       this.onButtonClick();
     });
 

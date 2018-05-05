@@ -31,9 +31,18 @@ export default class Application {
 
   static showResult(view) {
     view.onButtonClick = () => {
-      this.showWelcome();
+      Application.showWelcome();
     };
-    showView(view.element);
+
+    if (view.userResult.points > -1 && view.userResult.remainingTime > 0) { // win
+      Loader.saveResults(view.userResult)
+          .then(Loader.loadResults)
+          .then((data) => view.updateStatistics(data))
+          .then(showView(view.element))
+          .catch(Application.showError);
+    } else { // fail
+      showView(view.element);
+    }
   }
 
   static showError(error) {
