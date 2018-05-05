@@ -13,7 +13,7 @@ const ALMOST_OVER_TIME = 30;
 export default class GameScreen {
   constructor(model) {
     this.model = model;
-    this.view = this.getQuestionView();
+    this.view = this._getQuestionView();
     this._interval = null;
   }
 
@@ -28,67 +28,67 @@ export default class GameScreen {
       this.model.updateTime(this._timer.time);
 
       if (!this.model.isAlive) {
-        this.showTimeIsOver();
+        this._showTimeIsOver();
       } else {
-        this.updateHeader();
+        this._updateHeader();
       }
     }, 1000);
   }
 
-  stopGame() {
+  _stopGame() {
     clearInterval(this._interval);
   }
 
-  getQuestionView() {
+  _getQuestionView() {
     const question = this.model.getCurrentQuestion();
     let questionView;
     if (question.type === `artist`) {
       questionView = new ArtistView(this.model.state, question);
       questionView.onChange = (checkedArtist) => {
         const isRightAnswer = this.model.getCurrentQuestion().rightAnswer.artist === checkedArtist;
-        this.setAnswer(isRightAnswer);
+        this._setAnswer(isRightAnswer);
       };
     } else if (question.type === `genre`) {
       questionView = new GenreView(this.model.state, question);
       questionView.onButtonClick = (checkedGenres) => {
         const isRightAnswer = checkedGenres.every((item) => item === this.model.getCurrentQuestion().rightAnswer.genre);
-        this.setAnswer(isRightAnswer);
+        this._setAnswer(isRightAnswer);
       };
 
     }
     return questionView;
   }
 
-  setAnswer(isRightAnswer) {
+  _setAnswer(isRightAnswer) {
     const time = this.model.state.currentQuestionTime - this.model.state.time;
     this.model.updateState({passed: isRightAnswer, time});
-    this.resolveNextStep();
+    this._resolveNextStep();
   }
 
-  resolveNextStep() {
-    this.stopGame();
+  _resolveNextStep() {
+    this._stopGame();
     if (!this.model.isAlive) {
-      this.showTimeIsOver();
+      this._showTimeIsOver();
     } else if (this.model.isWon) {
       Application.showResult(new WinView(this.model.state));
     } else {
       this.model.setNextQuestion();
-      this.view = this.getQuestionView();
-      this.showNextQuestion();
+      this.view = this._getQuestionView();
+      this._showNextQuestion();
     }
   }
 
-  showNextQuestion() {
+  _showNextQuestion() {
     showView(this.view.element);
     this.startGame();
   }
 
-  showTimeIsOver() {
-    this.stopGame();
+  _showTimeIsOver() {
+    this._stopGame();
     Application.showResult(new FailView(this.model.state));
   }
 
-  updateHeader() {
+  _updateHeader() {
     const {minutes, seconds} = getMinuteAndSeconds(this.model.state.time);
     const timerElement = this.view.element.querySelector(`.timer-value`);
     if (this.model.state.time < ALMOST_OVER_TIME) {
